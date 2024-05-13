@@ -1,0 +1,28 @@
+[build-system]
+requires = ["flit"]
+build-backend = "flit.buildapi"
+
+[project]
+name =  "datasalad"
+version = "0.0.1rc1"
+authors = [
+    {name = "Michael Hanke", email = "michael.hanke@gmail.com"},
+]
+description = "Up'n'coming"
+#readme = "README.md"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11"
+]
+requires-python = ">=3.8"
+
+[project.urls]
+Documentation = "https://github.com/datalad/datasalad/tree/main#readme"
+Source = "https://github.com/datalad/datasalad"
+"Issue tracker" = "https://github.com/datalad/datasalad/issues"

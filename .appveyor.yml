@@ -304,7 +304,8 @@ for:
 # ALL TEST RUNS
 #
 build_script:
-  - python -m pip install hatch
+  # install the pieces that we need in this CI run
+  - python -m pip install hatch coverage
   #- python -m pip install -r requirements-devel.txt
   #- python -m pip install .
 

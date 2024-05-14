@@ -50,7 +50,6 @@ default-args = ["datasalad"]
 extra-dependencies = [
   "pytest",
   "pytest-cov",
-  "coverage",
 ]
 
 [tool.hatch.envs.types]

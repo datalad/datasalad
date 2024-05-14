@@ -12,12 +12,18 @@ description = 'something descriptive'
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
-keywords = []
+keywords = [
+]
 authors = [
   { name = "Michael Hanke", email = "michael.hanke@gmail.com" },
 ]
+maintainers = [
+  { name = "Michael Hanke", email = "michael.hanke@gmail.com" },
+]
 classifiers = [
-  "Development Status :: 4 - Beta",
+  "License :: OSI Approved :: MIT License",
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers"
   "Programming Language :: Python",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
@@ -30,9 +36,11 @@ classifiers = [
 dependencies = []
 
 [project.urls]
+Homepage = "https://github.com/datalad/datasalad"
 Documentation = "https://github.com/datalad/datasalad#readme"
 Issues = "https://github.com/datalad/datasalad/issues"
 Source = "https://github.com/datalad/datasalad"
+Changelog = "https://github.com/datalad/datasalad/blob/main/CHANGELOG.md"
 
 [tool.hatch.version]
 source = "vcs"

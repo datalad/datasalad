@@ -225,7 +225,7 @@ for:
           export TMPDIR=/crippledfs
         fi
       - echo TMPDIR=$TMPDIR
-      - hatch test
+      - hatch test --cover
 
     after_test:
       - python -m coverage xml
@@ -288,7 +288,7 @@ for:
       #- tools\appveyor\verify-ssh-access
 
     test_script:
-      - hatch test
+      - hatch test --cover
 
     after_test:
       - cmd: python -m coverage xml

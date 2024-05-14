@@ -66,14 +66,17 @@ parallel = true
 omit = [
 #  "src/datasalad/__about__.py",
 ]
+data_file = "${COVERAGE_ROOT-.}/.coverage"
 
 [tool.coverage.paths]
 datasalad = ["src/datasalad", "*/datasalad/src/datasalad"]
 tests = ["tests", "*/datasalad/tests"]
 
 [tool.coverage.report]
+show_missing = true
 exclude_lines = [
   "no cov",
   "if __name__ == .__main__.:",
   "if TYPE_CHECKING:",
+  "raise NotImplementedError",
 ]

@@ -1,5 +1,8 @@
 [build-system]
-requires = ["hatchling"]
+requires = [
+  "hatchling",
+  "hatch-vcs",
+]
 build-backend = "hatchling.build"
 
 [project]
@@ -32,7 +35,7 @@ Issues = "https://github.com/Michael Hanke/datasalad/issues"
 Source = "https://github.com/Michael Hanke/datasalad"
 
 [tool.hatch.version]
-path = "src/datasalad/__about__.py"
+source = "vcs"
 
 [tool.hatch.envs.types]
 extra-dependencies = [

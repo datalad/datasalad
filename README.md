@@ -2,6 +2,8 @@
 
 [![GitHub release](https://img.shields.io/github/release/datalad/datasalad.svg)](https://GitHub.com/datalad/datasalad/releases/)
 [![PyPI version fury.io](https://badge.fury.io/py/datasalad.svg)](https://pypi.python.org/pypi/datasalad/)
+[![Build status](https://ci.appveyor.com/api/projects/status/wtksrottgt82h2ra/branch/main?svg=true)](https://ci.appveyor.com/project/mih/datasalad/branch/main)
+
 
 ## Developing with datasalad
 

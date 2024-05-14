@@ -137,6 +137,8 @@ only_commits:
   files:
     - datasalad/
     - tools/
+    - pyproject.toml
+    - .appveyor.yml
 
 
 ## tests need specific hostnames to be available

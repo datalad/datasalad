@@ -80,3 +80,12 @@ exclude_lines = [
   "if TYPE_CHECKING:",
   "raise NotImplementedError",
 ]
+
+[tool.ruff]
+exclude = [
+  # sphinx
+  "docs",
+]
+line-length = 88
+indent-width = 4
+target-version = "py38"

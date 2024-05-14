@@ -1,7 +1,7 @@
 # DataSALad
 
-[![GitHub release](https://img.shields.io/github/release/datalad/datalad-next.svg)](https://GitHub.com/datalad/datalad-next/releases/)
-[![PyPI version fury.io](https://badge.fury.io/py/datalad-next.svg)](https://pypi.python.org/pypi/datalad-next/)
+[![GitHub release](https://img.shields.io/github/release/datalad/datasalad.svg)](https://GitHub.com/datalad/datasalad/releases/)
+[![PyPI version fury.io](https://badge.fury.io/py/datasalad.svg)](https://pypi.python.org/pypi/datasalad/)
 
 ## Developing with datasalad
 

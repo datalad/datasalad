@@ -1,4 +1,4 @@
-"""Exception raise on a failed runner command execution
+"""Exception raised on a failed command execution
 """
 from __future__ import annotations
 
@@ -6,10 +6,21 @@ import os
 
 
 class CommandError(RuntimeError):
-    """Thrown if a command call fails.
+    """Raised when a subprocess execution fails (non-zero exit)
 
-    Note: Subclasses should override `to_str` rather than `__str__` because
-    `to_str` is called directly in datalad.cli.main.
+    Key class attributes are aligned with the ``CalledProcessError`` exception
+    of the ``subprocess`` module of the Python standard library. However,
+    this class is not a subclass of ``CalledProcessError``, but a subclass
+    of ``RuntimeError``.
+
+    At minimum, the command with the failed execution must be provided
+    as an argument. A number of additional information items can be provided
+    in addition to enable more comprehensive reporting on execution failures.
+
+    As an addition to the ``CalledProcessError`` arguments, a ``msg`` parameter
+    is supported which can be used to include contextual information on the
+    command execution, for example why a command execution was attempted, or
+    under which particular circumstances.
     """
 
     def __init__(

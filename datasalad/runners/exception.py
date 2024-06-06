@@ -47,7 +47,7 @@ class CommandError(RuntimeError):
             to_str += f" failed with exitcode {self.returncode}"
         if self.cwd:
             # only if not under standard PWD
-            to_str += f" under {self.cwd}"
+            to_str += f" at CWD {self.cwd}"
         if self.msg:
             # typically a command error has no specific idea
             # but we support it, because CommandError derives

@@ -4,9 +4,6 @@ from __future__ import annotations
 
 import logging
 import os
-from typing import (
-    Any,
-)
 
 lgr = logging.getLogger('datalad.runner.exception')
 
@@ -26,7 +23,6 @@ class CommandError(RuntimeError):
         stdout: str | bytes = "",
         stderr: str | bytes = "",
         cwd: str | os.PathLike | None = None,
-        **kwargs: Any,
     ) -> None:
         RuntimeError.__init__(self, msg)
         self.cmd = cmd
@@ -35,7 +31,6 @@ class CommandError(RuntimeError):
         self.stdout = stdout
         self.stderr = stderr
         self.cwd = cwd
-        self.kwargs = kwargs
 
     def to_str(self) -> str:
         to_str = "{}: ".format(self.__class__.__name__)
@@ -57,10 +52,6 @@ class CommandError(RuntimeError):
         if self.msg:
             # typically a command error has no specific idea
             to_str += " [{}]".format(self.msg)
-
-        if self.kwargs:
-            to_str += " [info keys: {}]".format(
-                ', '.join(self.kwargs.keys()))
 
         return to_str
 

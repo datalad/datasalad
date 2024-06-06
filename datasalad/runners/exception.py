@@ -33,9 +33,8 @@ class CommandError(RuntimeError):
         self.cwd = cwd
 
     def to_str(self) -> str:
-        to_str = "{}: ".format(self.__class__.__name__)
-        cmd = self.cmd
-        if cmd:
+        to_str = f"{self.__class__.__name__}:"
+        if self.cmd:
             # we report the command verbatim, in exactly the form that it has
             # been given to the exception. Previously implementation have
             # beautified output by joining list-format commands with shell
@@ -43,15 +42,17 @@ class CommandError(RuntimeError):
             # actually run locally. In practice, CommandError is also used
             # to report on remote command execution failure. Reimagining
             # quoting and shell conventions based on assumptions is confusing.
-            to_str += f"'{cmd}'"
+            to_str += f" {self.cmd!r}"
         if self.returncode:
-            to_str += " failed with exitcode {}".format(self.returncode)
+            to_str += f" failed with exitcode {self.returncode}"
         if self.cwd:
             # only if not under standard PWD
-            to_str += " under {}".format(self.cwd)
+            to_str += f" under {self.cwd}"
         if self.msg:
             # typically a command error has no specific idea
-            to_str += " [{}]".format(self.msg)
+            # but we support it, because CommandError derives
+            # from RuntimeError which has this feature.
+            to_str += f" [{self.msg}]"
 
         return to_str
 

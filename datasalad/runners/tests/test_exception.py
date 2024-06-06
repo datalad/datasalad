@@ -3,6 +3,12 @@ from __future__ import annotations
 from ..exception import CommandError
 
 
+def test_CommandError_minial():
+    # this is the CommandError instance with the least information
+    ce = CommandError()
+    assert str(ce) == 'CommandError:'
+
+
 def test_command_error_rendering() -> None:
     command_error = CommandError(
         cmd="<cmd>",

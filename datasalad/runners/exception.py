@@ -69,7 +69,7 @@ class CommandError(RuntimeError):
             to_str += " under {}".format(self.cwd)
         if self.msg:
             # typically a command error has no specific idea
-            to_str += " [{}]".format(ensure_unicode(self.msg))
+            to_str += " [{}]".format(self.msg)
 
         if self.kwargs:
             to_str += " [info keys: {}]".format(

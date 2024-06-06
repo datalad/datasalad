@@ -47,10 +47,7 @@ class CommandError(RuntimeError):
         self.cwd = cwd
         self.kwargs = kwargs
 
-    def to_str(self, include_output: bool = True) -> str:
-        from datalad.utils import (
-            ensure_unicode,
-        )
+    def to_str(self) -> str:
         to_str = "{}: ".format(self.__class__.__name__)
         cmd = self.cmd
         if cmd:
@@ -78,14 +75,6 @@ class CommandError(RuntimeError):
             if 'stdout_json' in self.kwargs:
                 to_str += _format_json_error_messages(
                     self.kwargs['stdout_json'])
-
-        if not include_output:
-            return to_str
-
-        if self.stdout:
-            to_str += " [out: '{}']".format(ensure_unicode(self.stdout).strip())
-        if self.stderr:
-            to_str += " [err: '{}']".format(ensure_unicode(self.stderr).strip())
 
         return to_str
 

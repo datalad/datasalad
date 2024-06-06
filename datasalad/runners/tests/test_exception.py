@@ -91,9 +91,4 @@ def test_command_error_rendering() -> None:
     result = command_error.to_str()
     assert result == \
         "CommandError: '<cmd>' failed with exitcode 1 under <cwd> [<msg>] " \
-        "[info keys: kwarg1, kwarg2] [out: '<stdout>'] [err: '<stderr>']"
-
-    result = command_error.to_str(False)
-    assert result == \
-        "CommandError: '<cmd>' failed with exitcode 1 under <cwd> [<msg>] " \
         "[info keys: kwarg1, kwarg2]"

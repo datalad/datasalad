@@ -50,16 +50,18 @@ class CommandError(RuntimeError):
     def to_str(self, include_output: bool = True) -> str:
         from datalad.utils import (
             ensure_unicode,
-            join_cmdline,
         )
         to_str = "{}: ".format(self.__class__.__name__)
         cmd = self.cmd
         if cmd:
-            to_str += "'{}'".format(
-                # go for a compact, normal looking, properly quoted
-                # command rendering if the command is in list form
-                join_cmdline(cmd) if isinstance(cmd, list) else cmd
-            )
+            # we report the command verbatim, in exactly the form that it has
+            # been given to the exception. Previously implementation have
+            # beautified output by joining list-format commands with shell
+            # quoting. However that implementation assumed that the command
+            # actually run locally. In practice, CommandError is also used
+            # to report on remote command execution failure. Reimagining
+            # quoting and shell conventions based on assumptions is confusing.
+            to_str += f"'{cmd}'"
         if self.code:
             to_str += " failed with exitcode {}".format(self.code)
         if self.cwd:

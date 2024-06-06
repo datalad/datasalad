@@ -18,12 +18,12 @@ jobs:
           architecture: x64
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install mypy
-        run: python -m pip install mypy  # you can pin your preferred version
-      - name: Type check changed files
+      - name: Install hatch (which pull mypy)
+        run: python -m pip install hatch
+      - name: Type check project
         run: |
           # get any type stubs that mypy thinks it needs
-          mypy --install-types --non-interactive --follow-imports skip datasalad
+          hatch run types:mypy --install-types --non-interactive --follow-imports skip datasalad
           # run mypy on the full project.
           # run on the oldest supported Python version
-          mypy --python-version 3.8 --pretty --show-error-context datasalad
+          hatch run types:mypy --python-version 3.8 --pretty --show-error-context datasalad

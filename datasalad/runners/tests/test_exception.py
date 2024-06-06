@@ -13,6 +13,5 @@ def test_command_error_rendering() -> None:
         cwd="<cwd>",
     )
 
-    result = command_error.to_str()
-    assert result == \
+    assert command_error.to_str() == str(command_error) == \
         "CommandError: '<cmd>' failed with exitcode 1 at CWD <cwd> [<msg>]"

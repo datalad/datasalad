@@ -19,7 +19,7 @@ class CommandError(RuntimeError):
         self,
         cmd: str | list[str] = "",
         msg: str = "",
-        code: int | None = None,
+        returncode: int | None = None,
         stdout: str | bytes = "",
         stderr: str | bytes = "",
         cwd: str | os.PathLike | None = None,
@@ -27,7 +27,7 @@ class CommandError(RuntimeError):
         RuntimeError.__init__(self, msg)
         self.cmd = cmd
         self.msg = msg
-        self.code = code
+        self.returncode = returncode
         self.stdout = stdout
         self.stderr = stderr
         self.cwd = cwd
@@ -44,8 +44,8 @@ class CommandError(RuntimeError):
             # to report on remote command execution failure. Reimagining
             # quoting and shell conventions based on assumptions is confusing.
             to_str += f"'{cmd}'"
-        if self.code:
-            to_str += " failed with exitcode {}".format(self.code)
+        if self.returncode:
+            to_str += " failed with exitcode {}".format(self.returncode)
         if self.cwd:
             # only if not under standard PWD
             to_str += " under {}".format(self.cwd)

@@ -1,12 +1,20 @@
 from __future__ import annotations
 
+import pytest
+
 from ..exception import CommandError
 
 
 def test_CommandError_minial():
-    # this is the CommandError instance with the least information
-    ce = CommandError()
-    assert str(ce) == 'CommandError:'
+    with pytest.raises(TypeError):
+        # we need a command
+        CommandError()
+    # this is the CommandError instance with the least information:
+    # the failed command
+    ce = CommandError('mycmd')
+    assert str(ce) == "CommandError: 'mycmd'"
+    ce = CommandError(['mycmd', 'arg0'])
+    assert str(ce) == "CommandError: ['mycmd', 'arg0']"
 
 
 def test_command_error_rendering() -> None:

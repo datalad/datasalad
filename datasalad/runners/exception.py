@@ -14,7 +14,7 @@ class CommandError(RuntimeError):
 
     def __init__(
         self,
-        cmd: str | list[str] = "",
+        cmd: str | list[str],
         msg: str = "",
         returncode: int | None = None,
         stdout: str | bytes = "",
@@ -30,16 +30,14 @@ class CommandError(RuntimeError):
         self.cwd = cwd
 
     def to_str(self) -> str:
-        to_str = f"{self.__class__.__name__}:"
-        if self.cmd:
-            # we report the command verbatim, in exactly the form that it has
-            # been given to the exception. Previously implementation have
-            # beautified output by joining list-format commands with shell
-            # quoting. However that implementation assumed that the command
-            # actually run locally. In practice, CommandError is also used
-            # to report on remote command execution failure. Reimagining
-            # quoting and shell conventions based on assumptions is confusing.
-            to_str += f" {self.cmd!r}"
+        # we report the command verbatim, in exactly the form that it has
+        # been given to the exception. Previously implementation have
+        # beautified output by joining list-format commands with shell
+        # quoting. However that implementation assumed that the command
+        # actually run locally. In practice, CommandError is also used
+        # to report on remote command execution failure. Reimagining
+        # quoting and shell conventions based on assumptions is confusing.
+        to_str = f"{self.__class__.__name__}: {self.cmd!r}"
         if self.returncode:
             to_str += f" failed with exitcode {self.returncode}"
         if self.cwd:

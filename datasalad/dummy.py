@@ -1,2 +1,2 @@
-def not_covered():
+def not_covered() -> None:
     pass

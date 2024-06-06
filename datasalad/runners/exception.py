@@ -6,7 +6,6 @@ import logging
 import os
 from typing import (
     Any,
-    Optional,
 )
 
 lgr = logging.getLogger('datalad.runner.exception')
@@ -23,7 +22,7 @@ class CommandError(RuntimeError):
         self,
         cmd: str | list[str] = "",
         msg: str = "",
-        code: Optional[int] = None,
+        code: int | None = None,
         stdout: str | bytes = "",
         stderr: str | bytes = "",
         cwd: str | os.PathLike | None = None,

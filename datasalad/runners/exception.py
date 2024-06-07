@@ -21,7 +21,17 @@ class CommandError(RuntimeError):
     As an addition to the ``CalledProcessError`` arguments, a ``msg`` parameter
     is supported which can be used to include contextual information on the
     command execution, for example why a command execution was attempted, or
-    under which particular circumstances.
+    under which particular circumstances. A possible implementation pattern
+    is::
+
+        try:
+            # some call raises an original exception
+            raise CommandError('mycmd')
+        except CommandError as e:
+            # a wrapping try/except can be used to add context info
+            # or a hint on a probably cause to the exception
+            e.msg = 'context info or hint'
+            raise e
     """
 
     def __init__(

@@ -53,3 +53,24 @@ def test_CommandError_str_repr() -> None:
     for ce, _str, _repr in testcases:
         assert str(ce) == _str
         assert repr(ce) == _repr
+
+
+def check_reraise_CommandError_with_msg():
+    try:
+        # some call raises an original exception
+        raise CommandError('mycmd')
+    except CommandError as e:
+        # a wrapping try/except can be used to add context info
+        # or a hint on a probably cause to the exception
+        e.msg = 'context info or hint'
+        raise e
+
+
+def test_CommandError_context_msg():
+    with pytest.raises(CommandError) as cmderr:
+        check_reraise_CommandError_with_msg()
+    assert cmderr.value.cmd == 'mycmd'
+    assert cmderr.value.msg == 'context info or hint'
+    assert str(cmderr.value) == \
+        "Command 'mycmd' errored with unknown exit status " \
+        "[context info or hint]"

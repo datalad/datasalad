@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import signal
 
 
 class CommandError(RuntimeError):
@@ -48,9 +49,16 @@ class CommandError(RuntimeError):
         # actually run locally. In practice, CommandError is also used
         # to report on remote command execution failure. Reimagining
         # quoting and shell conventions based on assumptions is confusing.
-        to_str = f"{self.__class__.__name__}: {self.cmd!r}"
-        if self.returncode:
-            to_str += f" failed with exitcode {self.returncode}"
+        to_str = f"Command {self.cmd!r}"
+        if self.returncode and self.returncode < 0:
+            try:
+                to_str += f" died with {signal.Signals(-self.returncode).name}"
+            except ValueError:
+                to_str += f" died with unknown signal {-self.returncode}"
+        elif self.returncode:
+            to_str += f" returned non-zero exit status {self.returncode}"
+        else:
+            to_str += " errored with unknown exit status"
         if self.cwd:
             # only if not under standard PWD
             to_str += f" at CWD {self.cwd}"

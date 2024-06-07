@@ -64,3 +64,42 @@ class CommandError(RuntimeError):
 
     def __str__(self) -> str:
         return self.to_str()
+
+    def __repr__(self) -> str:
+        descr = f"{self.__class__.__name__}({self.cmd!r}"
+        for kwarg, (val, default) in dict(
+            msg=(self.msg, ''),
+            returncode=(self.returncode, None),
+            stdout=(self.stdout, ''),
+            stderr=(self.stderr, ''),
+            cwd=(self.cwd, None),
+        ).items():
+            if val == default:
+                continue
+            if kwarg in ('stdout', 'stderr'):
+                assert isinstance(val, (str, bytes))
+                if isinstance(val, bytes):
+                    descr += f", {kwarg}=b{truncate_bytes(val)!r}"
+                else:
+                    descr += f", {kwarg}={truncate_str(val)!r}"
+            else:
+                descr += f", {kwarg}={val!r}"
+        descr += ')'
+        return descr
+
+
+def truncate_bytes(data: bytes) -> str:
+    return f'<{len(data)} bytes>'
+
+
+def truncate_str(text: str) -> str:
+    # truncation like done below only actually shortens beyond
+    # 60 chars input length
+    front = 20
+    back = 20
+    if len(text) < (front + back + 14):
+        # stringify only
+        return f"{text}"
+    else:
+        return f"{text[:front]}<... +{len(text) - front - back} chars>" \
+               f"{text[-back:]}"

@@ -51,5 +51,5 @@ def test_CommandError_str_repr() -> None:
              "CommandError('mycmd', returncode=-6)")
         )
     for ce, _str, _repr in testcases:
-        assert ce.to_str() == str(ce) == _str
+        assert str(ce) == _str
         assert repr(ce) == _repr

@@ -41,7 +41,7 @@ class CommandError(RuntimeError):
         self.stderr = stderr
         self.cwd = cwd
 
-    def to_str(self) -> str:
+    def __str__(self) -> str:
         # we report the command verbatim, in exactly the form that it has
         # been given to the exception. Previously implementation have
         # beautified output by joining list-format commands with shell
@@ -67,11 +67,7 @@ class CommandError(RuntimeError):
             # but we support it, because CommandError derives
             # from RuntimeError which has this feature.
             to_str += f" [{self.msg}]"
-
         return to_str
-
-    def __str__(self) -> str:
-        return self.to_str()
 
     def __repr__(self) -> str:
         descr = f"{self.__class__.__name__}({self.cmd!r}"

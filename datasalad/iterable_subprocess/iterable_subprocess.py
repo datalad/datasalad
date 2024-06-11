@@ -6,6 +6,10 @@ from threading import Thread
 
 from datasalad.runners import CommandError
 
+# Errno22 indicates an IO failure with a
+# file descriptor
+ERRCODE_IO_FAILURE = 22
+
 
 class OutputFrom(Generator):
     def __init__(self, stdout, stderr_deque, chunk_size=65536):
@@ -80,7 +84,8 @@ def iterable_subprocess(
             nonlocal exception
             try:
                 target(*args)
-            except BaseException as e:
+            except BaseException as e:  # noqa: BLE001
+                # ok to catch any exception here, we are reporting them
                 exception = e
 
         t = Thread(target=wrapper)
@@ -101,25 +106,23 @@ def iterable_subprocess(
                 try:
                     stdin.write(chunk)
                 except BrokenPipeError:
-                    raise _BrokenPipeError()
+                    raise _BrokenPipeError  # noqa B904
                 except OSError as e:
-                    if e.errno != 22:
-                        # Errno22 indicates an IO failure with a
-                        # file descriptor (maybe process is dead already)
-                        raise _BrokenPipeError()
-                    else:
-                        # no idea what this could be, let it bubble up
-                        raise
+                    if e.errno != ERRCODE_IO_FAILURE:
+                        # maybe process is dead already
+                        raise _BrokenPipeError  # noqa B904
+                    # no idea what this could be, let it bubble up
+                    raise
         finally:
             try:
                 stdin.close()
             except BrokenPipeError:
-                raise _BrokenPipeError()
+                raise _BrokenPipeError  # noqa B904
             except OSError as e:
                 # silently ignore Errno22, which happens on
                 # windows when trying to interacted with file descriptors
                 # associated with a process that exited already
-                if e.errno != 22:
+                if e.errno != ERRCODE_IO_FAILURE:
                     raise
 
     def keep_only_most_recent(stderr, stderr_deque):
@@ -145,34 +148,25 @@ def iterable_subprocess(
     exception_stderr = None
 
     try:
-
-        with \
-                Popen(  # nosec - all arguments are controlled by the caller
-                    program,
-                    stdin=PIPE,
-                    stdout=PIPE,
-                    stderr=PIPE,
-                    cwd=cwd,
-                    bufsize=bufsize,
-                ) as proc, \
-                thread(
-                    keep_only_most_recent,
-                    proc.stderr,
-                    stderr_deque,
-                ) as (start_t_stderr, join_t_stderr), \
-                thread(
-                    input_to,
-                    proc.stdin,
-                ) as (start_t_stdin, join_t_stdin):
-
+        with Popen(  # nosec - all arguments are controlled by the caller
+            program,
+            stdin=PIPE,
+            stdout=PIPE,
+            stderr=PIPE,
+            cwd=cwd,
+            bufsize=bufsize,
+        ) as proc, thread(
+            keep_only_most_recent,
+            proc.stderr,
+            stderr_deque,
+        ) as (start_t_stderr, join_t_stderr), thread(
+            input_to,
+            proc.stdin,
+        ) as (start_t_stdin, join_t_stdin):
             try:
                 start_t_stderr()
                 start_t_stdin()
-                chunk_generator = OutputFrom(
-                    proc.stdout,
-                    stderr_deque,
-                    chunk_size
-                )
+                chunk_generator = OutputFrom(proc.stdout, stderr_deque, chunk_size)
                 yield chunk_generator
             except BaseException:
                 proc.terminate()

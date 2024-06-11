@@ -20,4 +20,7 @@ and was written by Michal Charemza.
 
    iterable_subprocess
 """
+
+__all__ = ['iterable_subprocess']
+
 from .iterable_subprocess import iterable_subprocess

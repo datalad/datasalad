@@ -4,8 +4,7 @@ from contextlib import contextmanager
 from subprocess import PIPE, Popen
 from threading import Thread
 
-# Importing from datalad-core to prevent circular imports
-from datalad_next.exceptions import CommandError
+from datasalad.runners import CommandError
 
 
 class OutputFrom(Generator):
@@ -200,7 +199,7 @@ def iterable_subprocess(
     if proc.returncode:
         raise CommandError(
             cmd=program,
-            code=proc.returncode,
+            returncode=proc.returncode,
             stderr=b''.join(stderr_deque)[-chunk_size:],
             cwd=cwd,
         )

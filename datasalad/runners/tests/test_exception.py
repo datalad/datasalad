@@ -24,7 +24,7 @@ def test_CommandError_str_repr() -> None:
          "CommandError(['mycmd', 'arg0'])"),
         (CommandError(cmd="<cmd>", msg="<msg>", returncode=1,
                       stdout="<stdout>", stderr="<stderr>", cwd="<cwd>"),
-         "Command '<cmd>' returned non-zero exit status 1 at CWD <cwd> [<msg>]",
+         "Command '<cmd>' returned non-zero exit status 1 at CWD <cwd> [<msg>] [stderr: <stderr>]",
          "CommandError('<cmd>', msg='<msg>', returncode=1, stdout='<stdout>', "
          "stderr='<stderr>', cwd='<cwd>')"),
         (CommandError('mycmd', stdout=unicode_out),
@@ -33,23 +33,29 @@ def test_CommandError_str_repr() -> None:
         (CommandError('mycmd', stdout=cp1252_out),
          "Command 'mycmd' errored with unknown exit status",
          "CommandError('mycmd', stdout=b'<5 bytes>')"),
-        (CommandError('mycmd', stderr=cp1252_out),
-         "Command 'mycmd' errored with unknown exit status",
-         "CommandError('mycmd', stderr=b'<5 bytes>')"),
         (CommandError('mycmd', returncode=6),
          "Command 'mycmd' returned non-zero exit status 6",
          "CommandError('mycmd', returncode=6)"),
         (CommandError('mycmd', returncode=-234),
          "Command 'mycmd' died with unknown signal 234",
          "CommandError('mycmd', returncode=-234)"),
+        (CommandError('mycmd', stderr=unicode_out),
+         f"Command 'mycmd' errored with unknown exit status [stderr: {unicode_out}]",
+         f"CommandError('mycmd', stderr='{unicode_out[:20]}<... +14 chars>{unicode_out[-20:]}')"),
     ]
     if not sys.platform.startswith("win"):
-        testcases.append(
+        testcases.extend((
             # decode signal name, like `subprocess.CalledProcessError` does
             (CommandError('mycmd', returncode=-6),
              "Command 'mycmd' died with SIGABRT",
-             "CommandError('mycmd', returncode=-6)")
-        )
+             "CommandError('mycmd', returncode=-6)"),
+            # this is done on non-windows, because it uses a CP1252
+            # encoded string to provoke a decoding error
+            (CommandError('mycmd', stderr=cp1252_out),
+             "Command 'mycmd' errored with unknown exit status "
+             "[stderr: <undecodable 5 bytes>]",
+             "CommandError('mycmd', stderr=b'<5 bytes>')"),
+        ))
     for ce, _str, _repr in testcases:
         assert str(ce) == _str
         assert repr(ce) == _repr

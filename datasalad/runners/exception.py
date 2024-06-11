@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import signal
+import sys
 
 
 class CommandError(RuntimeError):
@@ -77,6 +78,33 @@ class CommandError(RuntimeError):
             # but we support it, because CommandError derives
             # from RuntimeError which has this feature.
             to_str += f" [{self.msg}]"
+
+        if not self.stderr:
+            return to_str
+
+        # make an effort to communicate stderr
+        stderr = ''
+        if isinstance(self.stderr, bytes):
+            # assume that the command output matches the local system
+            # encoding
+            try:
+                # we need to try conversion on the full bytestring to
+                # avoid alignment issues with random splits
+                stderr = self.stderr.decode(sys.getdefaultencoding())
+            except UnicodeDecodeError:
+                # we tried, we failed, sorry
+                # we are not guessing other encodings. If it doesn't
+                # match the system encoding, it is somewhat unlikely
+                # to be an informative error message.
+                stderr = f'<undecodable {truncate_bytes(self.stderr)}>'
+        else:
+            stderr = self.stderr
+
+        if not stderr:
+            return to_str
+
+        to_str += f' [stderr: {truncate_str(stderr, (60, 0))}]'
+
         return to_str
 
     def __repr__(self) -> str:
@@ -93,7 +121,7 @@ class CommandError(RuntimeError):
             if kwarg in ('stdout', 'stderr'):
                 assert isinstance(val, (str, bytes))
                 if isinstance(val, bytes):
-                    descr += f", {kwarg}=b{truncate_bytes(val)!r}"
+                    descr += f", {kwarg}=b'<{truncate_bytes(val)}>'"
                 else:
                     descr += f", {kwarg}={truncate_str(val)!r}"
             else:
@@ -103,17 +131,16 @@ class CommandError(RuntimeError):
 
 
 def truncate_bytes(data: bytes) -> str:
-    return f'<{len(data)} bytes>'
+    return f'{len(data)} bytes'
 
 
-def truncate_str(text: str) -> str:
+def truncate_str(text: str, keep: tuple[int, int] = (20, 20)) -> str:
     # truncation like done below only actually shortens beyond
     # 60 chars input length
-    front = 20
-    back = 20
+    front, back = keep
     if len(text) < (front + back + 14):
         # stringify only
         return f"{text}"
     else:
         return f"{text[:front]}<... +{len(text) - front - back} chars>" \
-               f"{text[-back:]}"
+               f"{text[-back:] if back > 0 else ''}"

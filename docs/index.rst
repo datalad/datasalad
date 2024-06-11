@@ -10,7 +10,15 @@ Welcome to datasalad's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-Here be dragons!
+
+Provided functionality
+----------------------
+
+.. currentmodule:: datasalad
+.. autosummary::
+   :toctree: generated
+
+   runners
 
 
 Indices and tables

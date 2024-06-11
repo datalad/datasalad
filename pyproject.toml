@@ -110,6 +110,32 @@ exclude = [
 line-length = 88
 indent-width = 4
 target-version = "py38"
+[tool.ruff.format]
+# Prefer single quotes over double quotes.
+quote-style = "single"
+[tool.ruff.lint.per-file-ignores]
+"**/test_*" = [
+  # permit assert statements in tests
+  "S101",
+  # permit relative import in tests
+  "TID252",
+  # permit versatile function names in tests
+  "N802",
+]
+# permit relative import in subpackage root
+"datasalad/*/__init__.py" = ["TID252"]
+# maintain iterable_subprocess tests largely "verbatim" for now
+"datasalad/iterable_subprocess/test_iterable_subprocess.py" = [
+  "ARG001",
+  "B007",
+  "EM101",
+  "F841",
+  "PLR2004",
+  "PT012",
+  "SIM117",
+  "TRY002",
+  "TRY003",
+]
 
 [tool.commitizen]
 name = "cz_customize"

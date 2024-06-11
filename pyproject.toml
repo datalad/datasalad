@@ -59,7 +59,23 @@ extra-dependencies = [
   "argcomplete",
 ]
 [tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/datasalad tests}"
+check = [
+  "mypy --install-types --non-interactive --python-version 3.8 --pretty --show-error-context datasalad",
+]
+
+[tool.hatch.envs.docs]
+extra-dependencies = [
+  "sphinx",
+]
+[tool.hatch.envs.docs.scripts]
+build = [
+  "make -C docs html",
+]
+clean = [
+  "rm -rf docs/generated",
+  "make -C docs clean",
+]
+
 
 [tool.coverage.run]
 source_pkgs = ["datasalad", "tests"]

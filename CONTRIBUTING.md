@@ -17,6 +17,20 @@ Here are a few pointers. For full detail, see the hatch docs.
 hatch test [--cover]
 ```
 
+### Build the HTML documentation (under `docs/_build/html`)
+
+```
+hatch run docs:build
+# clean with
+hatch run docs:clean
+```
+
+### Check type annotations
+
+```
+hatch run types:check
+```
+
 ### Check the `datasalad` version
 
 `hatch` determines the version from the VCS tags. This can help check that

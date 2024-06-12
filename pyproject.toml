@@ -139,7 +139,7 @@ quote-style = "single"
 
 [tool.commitizen]
 name = "cz_customize"
-tag_format = "$version"
+tag_format = "v$version"
 version_scheme = "pep440"
 version_provider = "scm"
 changelog_incremental = true

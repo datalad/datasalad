@@ -1,8 +1,17 @@
+from __future__ import annotations
+
 from collections import deque
 from collections.abc import Generator
 from contextlib import contextmanager
 from subprocess import PIPE, Popen
 from threading import Thread
+from typing import (
+    TYPE_CHECKING,
+    Iterable,
+)
+
+if TYPE_CHECKING:
+    from os import PathLike
 
 from datasalad.runners import CommandError
 
@@ -30,11 +39,11 @@ class OutputFrom(Generator):
 
 @contextmanager
 def iterable_subprocess(
-    program,
-    input_chunks,
-    chunk_size=65536,
-    cwd=None,
-    bufsize=-1,
+    program: list[str],
+    input_chunks: Iterable[bytes],
+    chunk_size: int = 65536,
+    cwd: PathLike | str | None = None,
+    bufsize: int = -1,
 ):
     """Subprocess execution context manager with iterable IO
 
@@ -85,6 +94,7 @@ def iterable_subprocess(
     - if it's zero, re-raise the original ``BrokenPipeError``
 
     """
+
     class _BrokenPipeError(Exception):
         pass
 
@@ -153,8 +163,8 @@ def iterable_subprocess(
         if exception is not None:
             raise exception from None
 
-    proc = None
-    stderr_deque = deque()
+    proc: Popen | None = None
+    stderr_deque: deque[bytes] = deque()
     chunk_generator = None
     exception_stdin = None
     exception_stderr = None
@@ -184,6 +194,9 @@ def iterable_subprocess(
                 proc.terminate()
                 raise
             finally:
+                if TYPE_CHECKING:
+                    assert proc is not None
+                    assert proc.stdout is not None
                 proc.stdout.close()
                 exception_stdin = join_t_stdin()
                 exception_stderr = join_t_stderr()
@@ -192,15 +205,23 @@ def iterable_subprocess(
             raise_if_not_none(exception_stderr)
 
     except _BrokenPipeError as e:
+        if TYPE_CHECKING:
+            assert proc is not None
         if chunk_generator:
             chunk_generator.returncode = proc.returncode
         if proc.returncode == 0:
+            if TYPE_CHECKING:
+                assert isinstance(e.__context__, BrokenPipeError)  # noqa PT017
             raise e.__context__ from None
     except BaseException:
+        if TYPE_CHECKING:
+            assert proc is not None
         if chunk_generator:
             chunk_generator.returncode = proc.returncode
         raise
 
+    if TYPE_CHECKING:
+        assert chunk_generator is not None
     chunk_generator.returncode = proc.returncode
     if proc.returncode:
         raise CommandError(

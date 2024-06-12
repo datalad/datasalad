@@ -1,7 +1,7 @@
 import pytest
 import sys
 
-from ..iter_subproc import (
+from .. import (
     iter_subproc,
     CommandError,
 )

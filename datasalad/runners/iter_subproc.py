@@ -16,6 +16,7 @@ try:
     from shutil import COPY_BUFSIZE  # type: ignore
 except ImportError:  # pragma: no cover
     import sys
+
     # too old
     # backported windows default from from Python 3.10.
     COPY_BUFSIZE = 1024 * 1024 if sys.platform.startswith('win') else 64 * 1024
@@ -26,7 +27,7 @@ __all__ = ['iter_subproc']
 def iter_subproc(
     args: list[str],
     *,
-    input: Iterable[bytes] | None = None,
+    inputs: Iterable[bytes] | None = None,
     chunk_size: int = COPY_BUFSIZE,
     cwd: Path | None = None,
     bufsize: int = -1,
@@ -70,7 +71,7 @@ def iter_subproc(
     ...         print(chunk)
     b'test'
     >>> # feed subprocess stdin from an iterable
-    >>> with iter_subproc(['cat'], input=[b'test']) as proc:
+    >>> with iter_subproc(['cat'], inputs=[b'test']) as proc:
     ...     for chunk in proc:
     ...         print(chunk)
     b'test'
@@ -100,7 +101,7 @@ def iter_subproc(
     ----------
     args: list
       Sequence of program arguments to be passed to ``subprocess.Popen``.
-    input: iterable, optional
+    inputs: iterable, optional
       If given, chunks of ``bytes`` to be written, iteratively, to the
       subprocess's ``stdin``.
     chunk_size: int, optional
@@ -117,7 +118,7 @@ def iter_subproc(
     """
     return iterable_subprocess.iterable_subprocess(
         args,
-        () if input is None else input,
+        () if inputs is None else inputs,
         chunk_size=chunk_size,
         cwd=cwd,
         bufsize=bufsize,

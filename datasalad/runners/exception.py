@@ -104,9 +104,6 @@ class CommandError(RuntimeError):
         else:
             stderr = self.stderr
 
-        if not stderr:
-            return to_str
-
         to_str += f' [stderr: {truncate_str(stderr, (60, 0))}]'
 
         return to_str

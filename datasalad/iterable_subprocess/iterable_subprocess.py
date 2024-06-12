@@ -93,6 +93,16 @@ def iterable_subprocess(
     - if it's non-zero raise a ``CommandError`` containing its standard error
     - if it's zero, re-raise the original ``BrokenPipeError``
 
+    >>> # regular execution, no input iterable
+    >>> with iterable_subprocess(['printf', 'test'], []) as proc:
+    ...     for chunk in proc:
+    ...         print(chunk)
+    b'test'
+    >>> # feed subprocess stdin from an iterable
+    >>> with iterable_subprocess(['cat'], [b'test']) as proc:
+    ...     for chunk in proc:
+    ...         print(chunk)
+    b'test'
     """
 
     class _BrokenPipeError(Exception):

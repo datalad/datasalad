@@ -1,4 +1,4 @@
-"""Execution of subprocesses
+"""High-level utilties for execution of subprocesses
 
 This module provides relevant components for subprocess execution.
 Execution errors are communicated with the

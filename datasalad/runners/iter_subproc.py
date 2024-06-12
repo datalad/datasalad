@@ -1,12 +1,14 @@
 from __future__ import annotations
 
-from pathlib import Path
 from typing import (
+    TYPE_CHECKING,
     Iterable,
-    List,
 )
 
-import datasalad.iterable_subprocess as iterable_subprocess
+if TYPE_CHECKING:
+    from pathlib import Path
+
+from datasalad import iterable_subprocess
 
 try:
     # we "type-ignore" the next line, because we run mypy configured
@@ -22,7 +24,7 @@ __all__ = ['iter_subproc']
 
 
 def iter_subproc(
-    args: List[str],
+    args: list[str],
     *,
     input: Iterable[bytes] | None = None,
     chunk_size: int = COPY_BUFSIZE,
@@ -115,7 +117,7 @@ def iter_subproc(
     """
     return iterable_subprocess.iterable_subprocess(
         args,
-        tuple() if input is None else input,
+        () if input is None else input,
         chunk_size=chunk_size,
         cwd=cwd,
         bufsize=bufsize,

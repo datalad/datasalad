@@ -56,8 +56,8 @@ warnings, etc.
 Developers are advised to never reuse any components with names starting with
 `_` (underscore). Their use should be limited to their individual subpackage.
 
-## Acknowledgements
+## Contributing
 
-This DataLad extension was developed with funding from the Deutsche
-Forschungsgemeinschaft (DFG, German Research Foundation) under grant SFB 1451
-([431549029](https://gepris.dfg.de/gepris/projekt/431549029), INF project).
+Contributions to this library are welcome! Please see the [contributing
+guidelines](CONTRIBUTING.md) for details on scope on styles of potential
+contributions.

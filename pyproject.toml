@@ -49,6 +49,9 @@ source = "vcs"
 default-args = ["datasalad"]
 extra-dependencies = [
   "pytest",
+  # if you come here, because coverage combination crashed for you
+  # run `hatch test --cover` and/or see
+  # https://github.com/pypa/hatch/issues/1565#issuecomment-2163773123
   "pytest-cov",
 ]
 

@@ -74,9 +74,7 @@ def iter_subproc(
     >>> with iter_subproc(['cat'], inputs=[b'one', b'two', b'three']) as proc:
     ...     for chunk in proc:
     ...         print(chunk)
-    b'one'
-    b'two'
-    b'three'
+    b'onetwothree'
 
     Note, if an exception is raised in the context, this exception will bubble
     up to the main thread. That means no ``CommandError`` will

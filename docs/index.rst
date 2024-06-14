@@ -19,6 +19,7 @@ Provided functionality
    :toctree: generated
 
    runners
+   iterable_subprocess
 
 
 Indices and tables

@@ -25,9 +25,7 @@ shell command, while reading its output back as a Python iterable.
 >>> with iter_subproc(['cat'], inputs=[b'one', b'two', b'three']) as proc:
 ...     for chunk in proc:
 ...         print(chunk)
-b'one'
-b'two'
-b'three'
+b'onetwothree'
 ```
 
 ## Developing with datasalad

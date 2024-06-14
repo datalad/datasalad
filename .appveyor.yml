@@ -225,7 +225,7 @@ for:
           export TMPDIR=/crippledfs
         fi
       - echo TMPDIR=$TMPDIR
-      - hatch test --cover
+      - hatch test --cover --doctest-modules
 
     after_test:
       - python -m coverage xml

@@ -88,13 +88,15 @@ def iter_subproc(
     ``CommandError`` is raised. The return code is read from
     the variable ``ls_stdout``
 
-    >>> try:
-    ...     with iter_subproc(['ls', '-@']) as ls_stdout:
-    ...         while True:
-    ...             next(ls_stdout)
-    ... except Exception as e:
-    ...     print(repr(e), ls_stdout.returncode)
-    StopIteration() 2
+    .. code-block:: python
+
+     >> try:
+     ..     with iter_subproc(['ls', '-@']) as ls_stdout:
+     ..         while True:
+     ..             next(ls_stdout)
+     .. except Exception as e:
+     ..     print(repr(e), ls_stdout.returncode)
+     StopIteration() 2
 
 
     Parameters

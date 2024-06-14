@@ -71,10 +71,12 @@ def iter_subproc(
     ...         print(chunk)
     b'test'
     >>> # feed subprocess stdin from an iterable
-    >>> with iter_subproc(['cat'], inputs=[b'test']) as proc:
+    >>> with iter_subproc(['cat'], inputs=[b'one', b'two', b'three']) as proc:
     ...     for chunk in proc:
     ...         print(chunk)
-    b'test'
+    b'one'
+    b'two'
+    b'three'
 
     Note, if an exception is raised in the context, this exception will bubble
     up to the main thread. That means no ``CommandError`` will

@@ -9,7 +9,6 @@ from typing import (
     Iterable,
 )
 
-
 __all__ = ['StoreOnly', 'route_in', 'route_out']
 
 

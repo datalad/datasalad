@@ -7,7 +7,7 @@ import pytest
 from ..align_pattern import align_pattern
 
 
-@pytest.mark.parametrize('data_chunks,pattern,expected', [
+@pytest.mark.parametrize(('data_chunks', 'pattern', 'expected'), [
     (['a', 'b', 'c', 'd', 'e'], 'abc', ['abc', 'de']),
     (['a', 'b', 'c', 'a', 'b', 'c'], 'abc', ['abc', 'abc']),
     # Ensure that unaligned pattern prefixes are not keeping data chunks short.

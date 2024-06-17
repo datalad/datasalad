@@ -8,7 +8,6 @@ from typing import (
     TypeVar,
 )
 
-
 __all__ = ['itemize']
 
 
@@ -103,6 +102,7 @@ def itemize(
 
 def _split_items_with_separator(iterable: Iterable[T],
                                 sep: T,
+                                *,
                                 keep_ends: bool = False,
                                 ) -> Generator[T, None, None]:
     assembled = None
@@ -115,10 +115,7 @@ def _split_items_with_separator(iterable: Iterable[T],
         if len(items) == 1:
             continue
 
-        if assembled.endswith(sep):
-            assembled = None
-        else:
-            assembled = items[-1]
+        assembled = None if assembled.endswith(sep) else items[-1]
         items.pop(-1)
         if keep_ends:
             for item in items:
@@ -131,6 +128,7 @@ def _split_items_with_separator(iterable: Iterable[T],
 
 
 def _split_lines(iterable: Iterable[T],
+                 *,
                  keep_ends: bool = False,
                  ) -> Generator[T, None, None]:
     assembled = None

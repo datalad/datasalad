@@ -2,9 +2,9 @@
 from more_itertools import intersperse
 
 from ..reroute import (
+    StoreOnly,
     route_in,
     route_out,
-    StoreOnly
 )
 
 
@@ -12,7 +12,7 @@ def test_route_around():
     """Test routing of data around a consumer"""
 
     # Route 0 around `lambda x: 2.0 / x.
-    store = list()
+    store = []
     r = route_in(
         map(
             lambda divisor: 2.0 / divisor,
@@ -25,7 +25,7 @@ def test_route_around():
             )
         ),
         store,
-        lambda processed_data, stored_data: processed_data
+        lambda processed_data, stored_data: processed_data  # noqa ARG005
                                             if processed_data is not StoreOnly
                                             else 'divisor is 0'
     )
@@ -41,7 +41,7 @@ def test_route_around():
 def test_route_no_processing():
     """Test routing of data without processing"""
 
-    store = list()
+    store = []
     r = route_in(
         map(
             lambda x: x,
@@ -52,6 +52,6 @@ def test_route_no_processing():
             )
         ),
         store,
-        lambda x, y: y
+        lambda x, y: y  # noqa ARG005
     )
     assert list(r) == list(range(10))

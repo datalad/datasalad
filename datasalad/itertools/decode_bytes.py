@@ -7,12 +7,12 @@ from typing import (
     Iterable,
 )
 
-
 __all__ = ['decode_bytes']
 
 
 def decode_bytes(
     iterable: Iterable[bytes],
+    *,
     encoding: str = 'utf-8',
     backslash_replace: bool = True,
 ) -> Generator[str, None, None]:
@@ -100,15 +100,14 @@ def decode_bytes(
         if not backslash_replace:
             # Signal the error to the caller
             raise exc
-        else:
-            return (
-                position + exc.end,
-                joined_data[:position + exc.start].decode(encoding)
-                + joined_data[position + exc.start:position + exc.end].decode(
-                    encoding,
-                    errors='backslashreplace'
-                ),
-            )
+        return (
+            position + exc.end,
+            joined_data[:position + exc.start].decode(encoding)
+            + joined_data[position + exc.start:position + exc.end].decode(
+                encoding,
+                errors='backslashreplace'
+            ),
+        )
 
     joined_data = b''
     pending_error = None

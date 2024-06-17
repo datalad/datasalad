@@ -9,7 +9,6 @@ from typing import (
     Iterable,
 )
 
-
 __all__ = ['load_json', 'load_json_with_flag']
 
 

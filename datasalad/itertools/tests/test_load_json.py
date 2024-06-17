@@ -5,13 +5,12 @@ from json.decoder import JSONDecodeError
 
 import pytest
 
+from ..decode_bytes import decode_bytes
+from ..itemize import itemize
 from ..load_json import (
     load_json,
     load_json_with_flag,
 )
-from ..decode_bytes import decode_bytes
-from ..itemize import itemize
-
 
 json_object = {
     'list1': [

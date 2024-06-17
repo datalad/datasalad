@@ -4,7 +4,6 @@ import pytest
 
 from ..itemize import itemize
 
-
 text_chunks = [
     'abc',
     'def\n012',
@@ -17,7 +16,7 @@ byte_chunks_other = [chunk.encode() for chunk in text_chunks_other]
 
 
 @pytest.mark.parametrize(
-    'input_chunks,separator',
+    ('input_chunks', 'separator'),
     [
         (text_chunks, '\n'),
         (byte_chunks, b'\n'),
@@ -28,18 +27,20 @@ byte_chunks_other = [chunk.encode() for chunk in text_chunks_other]
 def test_assembling_and_splitting(input_chunks, separator):
     empty = input_chunks[0][:0]
 
+    expected_items = 3
+
     r = tuple(itemize(input_chunks, None, keep_ends=True))
-    assert len(r) == 3
+    assert len(r) == expected_items
     assert empty.join(r) == empty.join(input_chunks)
 
     r = tuple(itemize(input_chunks, sep=separator, keep_ends=True))
-    assert len(r) == 3
+    assert len(r) == expected_items
     assert empty.join(r) == empty.join(input_chunks)
 
     r = tuple(itemize(input_chunks, sep=separator))
-    assert len(r) == 3
+    assert len(r) == expected_items
     assert empty.join(r) == empty.join(input_chunks).replace(separator, empty)
 
     r = tuple(itemize(input_chunks + input_chunks[:1], sep=separator, keep_ends=True))
-    assert len(r) == 4
+    assert len(r) == expected_items + 1
     assert r[3] == input_chunks[0]

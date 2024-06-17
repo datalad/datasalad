@@ -6,7 +6,7 @@ from ..decode_bytes import decode_bytes
 
 
 def test_split_decoding():
-    encoded = 'ö'.encode('utf-8')
+    encoded = 'ö'.encode()
     part_1, part_2 = encoded[:1], encoded[1:]
 
     # check that incomplete encodings are caught
@@ -15,7 +15,7 @@ def test_split_decoding():
 
 
 def test_unfixable_error_decoding():
-    encoded = 'ö'.encode('utf-8')
+    encoded = 'ö'.encode()
     part_1, part_2 = encoded[:1], encoded[1:]
 
     # check that incomplete encodings are caught

@@ -14,9 +14,9 @@ def test_route_around():
     # Route 0 around `lambda x: 2.0 / x.
     store = []
     r = route_in(
-        map(
-            lambda divisor: 2.0 / divisor,
-            route_out(
+        (
+            2.0 / divisor
+            for divisor in route_out(
                 intersperse(0, range(2, 20)),
                 store,
                 lambda divisor: (StoreOnly, [divisor])
@@ -34,7 +34,7 @@ def test_route_around():
     # with `[dont_process, 0]`, because the `0`s were routed around the
     # consumer, i.e. around `lambda x: x / 2.0`.
     assert list(r) == list(
-        intersperse('divisor is 0', map(lambda x: 2.0 / x, range(2, 20)))
+        intersperse('divisor is 0', (2.0 / x for x in range(2, 20)))
     )
 
 
@@ -43,9 +43,8 @@ def test_route_no_processing():
 
     store = []
     r = route_in(
-        map(
-            lambda x: x,
-            route_out(
+        (
+            x for x in route_out(
                 range(10),
                 store,
                 lambda x: (StoreOnly, x)

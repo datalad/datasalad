@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import timeit
-
 import pytest
 
 from ..align_pattern import align_pattern

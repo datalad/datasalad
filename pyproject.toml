@@ -8,11 +8,16 @@ build-backend = "hatchling.build"
 [project]
 name = "datasalad"
 dynamic = ["version"]
-description = 'something descriptive'
+description = 'utilities for working with data in the vicinity of Git and git-annex'
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
 keywords = [
+  "datalad",
+  "git",
+  "git-annex",
+  "iterator",
+  "subprocess",
 ]
 authors = [
   { name = "Michael Hanke", email = "michael.hanke@gmail.com" },

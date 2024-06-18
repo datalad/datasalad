@@ -179,6 +179,12 @@ def route_in(iterable: Iterable,
         ``iterable``, or ``datalad_next.itertools.StoreOnly`` if no data
         was processed in the corresponding step. The second argument is the
         data that was stored in ``data_store`` in the corresponding step.
+
+    Raises
+    ------
+    ValueError
+      When the "route-in items" from ``data_store`` do not match those
+      given by ``iterable``.
     """
     for element in iterable:
         processed, stored = data_store.pop(0)
@@ -192,8 +198,12 @@ def route_in(iterable: Iterable,
     # that indicate that they would have a corresponding item in the
     # iterable (processed is not StoreOnly)
     for processed, stored in data_store:
-        assert processed is StoreOnly, \
-            "iterable did not yield matching item for route-in item, cardinality mismatch?"
+        if processed is not StoreOnly:
+            msg = (
+                'iterable did not yield matching item for route-in item, '
+                'cardinality mismatch?'
+            )
+            raise ValueError(msg)
         yield joiner(processed, stored)
     # rather than pop() in the last loop, we just yielded from the list
     # now this information is no longer needed

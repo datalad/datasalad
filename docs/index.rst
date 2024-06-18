@@ -8,26 +8,62 @@ foundational library from and for the `DataLad project
 be equally well usable outside the DataLad system.
 
 A focus of this library is efficient communication with subprocesses, such as
-Git or git-annex commands, which read and produce data in some format. The
-library provides utilities to integrate such subprocess in Python algorithms,
-for example, to iteratively amend information in JSON-lines formatted data
-streams that are retrieved in arbitrary chunks over a network connection.
+Git or git-annex commands, which read and produce data in some format.
 
-Here is a simple demo how an iterable with inputs can be fed to the ``cat``
-shell command, while reading its output back as a Python iterable.
-
+Here is a demo of what can be accomplished with this library. The following
+code queries a remote git-annex repository via a ``git annex find`` command
+running over an SSH connection in batch-mode. The output in JSON-lines format
+is then itemized and decoded to native Python data types. Both inputs and
+outputs are iterables with meaningful items, even though at a lower level
+information is transmitted as an arbitrarily chunked byte stream.
 
 .. code-block:: python
 
+    >>> from more_itertools import intersperse
+    >>> from pprint import pprint
+    >>> from datasalad.runners import iter_subproc
+    >>> from datasalad.itertools import (
+    ...     itemize,
+    ...     load_json,
+    ... )
+
+    >>> # a bunch of photos we are interested in
+    >>> interesting = [
+    ...     b'DIY/IMG_20200504_205821.jpg',
+    ...     b'DIY/IMG_20200505_082136.jpg',
+    ... ]
+
+    >>> # run `git-annex find` on a remote server in a repository
+    >>> # that has these photos in the worktree.
     >>> with iter_subproc(
-    ...     ['cat'],
-    ...     inputs=[b'one', b'two', b'three'],
-    ... ) as proc:
-    ...     for chunk in proc:
-    ...         print(chunk)
-    b'one'
-    b'two'
-    b'three'
+    ...     ['ssh', 'photos@pididdy.local',
+    ...      'git -C "collections" annex find --json --batch'],
+    ...     # the remote process is fed the file names,
+    ...     # and a newline after each one to make git-annex write
+    ...     # a report in JSON-lines format
+    ...     inputs=intersperse(b'\n', interesting),
+    ... ) as remote_annex:
+    ...     # we loop over the output of the remote process.
+    ...     # this is originally a byte stream downloaded in arbitrary
+    ...     # chunks, so we itemize at any newline separator.
+    ...     # each item is then decoded from JSON-lines format to
+    ...     # native datatype
+    ...     for rec in load_json(itemize(remote_annex, sep=b'\n')):
+    ...         # for this demo we just pretty-print it
+    ...         pprint(rec)
+    {'backend': 'SHA256E',
+     'bytesize': '3357612',
+     'error-messages': [],
+     'file': 'DIY/IMG_20200504_205821.jpg',
+     'hashdirlower': '853/12f/',
+     'hashdirmixed': '65/qp/',
+     'humansize': '3.36 MB',
+     'key': 'SHA256E-s3357612--700a52971714c2707c2de975f6015ca14d1a4cdbbf01e43d73951c45cd58c176.jpg',
+     'keyname': '700a52971714c2707c2de975f6015ca14d1a4cdbbf01e43d73951c45cd58c176.jpg',
+     'mtime': 'unknown'}
+    {'backend': 'SHA256E',
+     'bytesize': '3284291',
+     ...
 
 
 Package overview
@@ -41,6 +77,7 @@ Also see the :ref:`modindex`.
 
    runners
    iterable_subprocess
+   itertools
 
 
 Why ``datasalad``?

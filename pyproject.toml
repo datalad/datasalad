@@ -53,6 +53,7 @@ source = "vcs"
 [tool.hatch.envs.hatch-test]
 default-args = ["datasalad"]
 extra-dependencies = [
+  "more_itertools",
   "pytest",
   # if you come here, because coverage combination crashed for you
   # run `hatch test --cover` and/or see
@@ -65,6 +66,8 @@ extra-dependencies = [
   "mypy>=1.0.0",
   "pytest",
   "argcomplete",
+  # for test type-checking
+  "more_itertools",
 ]
 [tool.hatch.envs.types.scripts]
 check = [

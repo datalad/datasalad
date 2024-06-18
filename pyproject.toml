@@ -66,6 +66,8 @@ extra-dependencies = [
   "mypy>=1.0.0",
   "pytest",
   "argcomplete",
+  # for test type-checking
+  "more_itertools",
 ]
 [tool.hatch.envs.types.scripts]
 check = [

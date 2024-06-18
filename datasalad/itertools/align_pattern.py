@@ -6,12 +6,14 @@ import re
 from typing import (
     Generator,
     Iterable,
+    TypeVar,
 )
 
+# TODO: datalad-next originally also had `str` here. Confirm
+S = TypeVar('S', str, bytes, bytearray)
 
-def align_pattern(
-    iterable: Iterable[str | bytes | bytearray], pattern: str | bytes | bytearray
-) -> Generator[str | bytes | bytearray, None, None]:
+
+def align_pattern(iterable: Iterable[S], pattern: S) -> Generator[S, None, None]:
     """Yield data chunks that contain a complete pattern, if it is present
 
     ``align_pattern`` makes it easy to find a pattern (``str``, ``bytes``,
@@ -68,7 +70,7 @@ def align_pattern(
 
     Yields
     -------
-    str | bytes | bytearray
+    bytes | bytearray
         data chunks that have at least the size of the pattern and do not end
         with a prefix of the pattern. Note that a data chunk might contain the
         pattern multiple times.
@@ -105,9 +107,13 @@ def align_pattern(
             current_chunk = data_chunk
         else:
             current_chunk += data_chunk
+        # we type-ignore the next line, because `pattern_matcher`
+        # (ie. `Pattern`) only supports a subtype specification ala
+        # `Pattern[str]` from Python 3.9 onwards. For now we need to
+        # be compatible with Python 3.8
         if len(current_chunk) >= len(pattern) and not (
             current_chunk[-1] in pattern
-            and pattern_matcher.match(current_chunk, len(current_chunk) - pattern_sub)
+            and pattern_matcher.match(current_chunk, len(current_chunk) - pattern_sub)  # type: ignore
         ):
             yield current_chunk
             current_chunk = None

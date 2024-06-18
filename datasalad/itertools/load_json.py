@@ -29,7 +29,7 @@ def load_json(
 
     .. code-block:: python
 
-        >>> from datalad_next.itertools import load_json, load_json_with_flag
+        >>> from datasalad.itertools import load_json, load_json_with_flag
         >>> tuple(load_json(['{"a": 1}']))
         ({'a': 1},)
         >>> tuple(load_json(['{"c": 3']))   # Faulty JSON-encoding, doctest: +SKIP
@@ -84,7 +84,7 @@ def load_json_with_flag(
 
     .. code-block:: python
 
-        >>> from datalad_next.itertools import load_json, load_json_with_flag
+        >>> from datasalad.itertools import load_json, load_json_with_flag
         >>> tuple(load_json_with_flag(['{"b": 2}']))
         (({'b': 2}, True),)
         >>> tuple(load_json_with_flag(['{"d": 4']))   # Faulty JSON-encoding

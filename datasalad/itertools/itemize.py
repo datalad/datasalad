@@ -76,7 +76,7 @@ def itemize(
 
     .. code-block:: python
 
-        >>> from datalad_next.itertools import itemize
+        >>> from datasalad.itertools import itemize
         >>> with open('/etc/passwd', 'rt') as f:                            # doctest: +SKIP
         ...     print(tuple(itemize(iter(f.read, ''), sep=None))[0:2])      # doctest: +SKIP
         ('root:x:0:0:root:/root:/bin/bash',

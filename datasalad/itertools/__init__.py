@@ -1,6 +1,6 @@
 """Various iterators, e.g., for subprocess pipelining and output processing
 
-.. currentmodule:: datalad_next.itertools
+.. currentmodule:: datasalad.itertools
 .. autosummary::
    :toctree: generated
 

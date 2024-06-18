@@ -41,6 +41,7 @@ Also see the :ref:`modindex`.
 
    runners
    iterable_subprocess
+   itertools
 
 
 Why ``datasalad``?

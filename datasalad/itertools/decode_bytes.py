@@ -41,7 +41,7 @@ def decode_bytes(
 
     .. code-block:: python
 
-        >>> from datalad_next.itertools import decode_bytes
+        >>> from datasalad.itertools import decode_bytes
         >>> tuple(decode_bytes([b'\\xc3', b'\\xb6']))
         ('ö',)
 
@@ -49,7 +49,7 @@ def decode_bytes(
 
     .. code-block:: python
 
-        >>> from datalad_next.itertools import decode_bytes
+        >>> from datasalad.itertools import decode_bytes
         >>> tuple(decode_bytes([b'\\xc3', b'\\xb6', b'a']))
         ('ö', 'a')
 

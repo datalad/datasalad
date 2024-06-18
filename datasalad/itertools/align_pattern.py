@@ -39,7 +39,7 @@ def align_pattern(
 
     .. code-block:: python
 
-        >>> from datalad_next.itertools import align_pattern
+        >>> from datasalad.itertools import align_pattern
         >>> tuple(align_pattern([b'abcd', b'e', b'fghi'], pattern=b'def'))
         (b'abcdefghi',)
         >>> # The pattern can be present multiple times in a yielded chunk

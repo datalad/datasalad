@@ -36,7 +36,7 @@ def route_out(
     tuple of two elements. The first element is the data that is to be
     yielded to the consumer. The second element is the data that is to be
     stored in the list ``data_store``. If the first element of the tuple is
-    ``datalad_next.itertools.StoreOnly``, no data is yielded to the
+    ``datasalad.itertools.StoreOnly``, no data is yielded to the
     consumer.
 
     :func:`route_in` can be used to combine data that was previously
@@ -62,7 +62,7 @@ def route_out(
     .. code-block:: python
 
         from math import nan
-        from datalad_next.itertools import route_out, route_in, StoreOnly
+        from datasalad.itertools import route_out, route_in, StoreOnly
 
 
         def splitter(divisor):
@@ -99,8 +99,8 @@ def route_out(
         The function is called for each item of
         the input iterable with the item as sole argument. It should return a
         tuple of two elements. If the first element is not
-        ``datalad_next.itertools.StoreOnly``, it is yielded to the consumer.
-        If the first element is ``datalad_next.itertools.StoreOnly``,
+        ``datasalad.itertools.StoreOnly``, it is yielded to the consumer.
+        If the first element is ``datasalad.itertools.StoreOnly``,
         nothing is yielded to the consumer. The second element is stored in the
         list ``data_store``.
         The cardinality of ``data_store`` will be the same as the cardinality of
@@ -128,7 +128,7 @@ def route_in(
     optionally processed data should be joined into a single item, which is
     then yielded by :func:`route_in`.
     :func:`route_in` calls :func:`joiner` with a 2-tuple. The first
-    element of the tuple is either ``datalad_next.itertools.StoreOnly`` or the
+    element of the tuple is either ``datasalad.itertools.StoreOnly`` or the
     next item from the underlying iterator. The second element is the data
     that was stored in the data store. The result of :func:`joiner` which will
     be yielded by :func:`route_in`.
@@ -155,7 +155,7 @@ def route_in(
     But, the number of elements processed by ``some_generator`` is determined by
     the :func:`splitter_1` in :func:`route_out`, i.e. by the number of
     :func:`splitter_1`-results that have don't have
-    ``datalad_next.itertools.don_process`` as first element.
+    ``datasalad.itertools.don_process`` as first element.
 
     Parameters
     ----------
@@ -168,7 +168,7 @@ def route_in(
         ``iterable`` should be combined with the corresponding data from
         ``data_store``, in order to yield the final result.
         The first argument to ``joiner`` is the item that is yielded by
-        ``iterable``, or ``datalad_next.itertools.StoreOnly`` if no data
+        ``iterable``, or ``datasalad.itertools.StoreOnly`` if no data
         was processed in the corresponding step. The second argument is the
         data that was stored in ``data_store`` in the corresponding step.
 

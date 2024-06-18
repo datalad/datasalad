@@ -100,11 +100,12 @@ def itemize(
         )
 
 
-def _split_items_with_separator(iterable: Iterable[T],
-                                sep: T,
-                                *,
-                                keep_ends: bool = False,
-                                ) -> Generator[T, None, None]:
+def _split_items_with_separator(
+    iterable: Iterable[T],
+    sep: T,
+    *,
+    keep_ends: bool = False,
+) -> Generator[T, None, None]:
     assembled = None
     for chunk in iterable:
         if not assembled:
@@ -127,10 +128,11 @@ def _split_items_with_separator(iterable: Iterable[T],
         yield assembled
 
 
-def _split_lines(iterable: Iterable[T],
-                 *,
-                 keep_ends: bool = False,
-                 ) -> Generator[T, None, None]:
+def _split_lines(
+    iterable: Iterable[T],
+    *,
+    keep_ends: bool = False,
+) -> Generator[T, None, None]:
     assembled = None
     for chunk in iterable:
         if not assembled:

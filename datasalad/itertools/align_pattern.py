@@ -1,5 +1,4 @@
-""" Function to ensure that a pattern is completely contained in single chunks
-"""
+"""Function to ensure that a pattern is completely contained in single chunks"""
 
 from __future__ import annotations
 
@@ -10,10 +9,10 @@ from typing import (
 )
 
 
-def align_pattern(iterable: Iterable[str | bytes | bytearray],
-                  pattern: str | bytes | bytearray
-                  ) -> Generator[str | bytes | bytearray, None, None]:
-    """ Yield data chunks that contain a complete pattern, if it is present
+def align_pattern(
+    iterable: Iterable[str | bytes | bytearray], pattern: str | bytes | bytearray
+) -> Generator[str | bytes | bytearray, None, None]:
+    """Yield data chunks that contain a complete pattern, if it is present
 
     ``align_pattern`` makes it easy to find a pattern (``str``, ``bytes``,
     or ``bytearray``) in data chunks. It joins data-chunks in such a way,
@@ -77,15 +76,23 @@ def align_pattern(iterable: Iterable[str | bytes | bytearray],
 
     # Create pattern matcher for all
     if isinstance(pattern, str):
-        regex: str | bytes | bytearray = '(' + '|'.join(
-            '.' * (len(pattern) - index - 1) + re.escape(pattern[:index]) + '$'
-            for index in range(1, len(pattern))
-        ) + ')'
+        regex: str | bytes | bytearray = (
+            '('
+            + '|'.join(
+                '.' * (len(pattern) - index - 1) + re.escape(pattern[:index]) + '$'
+                for index in range(1, len(pattern))
+            )
+            + ')'
+        )
     else:
-        regex = b'(' + b'|'.join(
-            b'.' * (len(pattern) - index - 1) + re.escape(pattern[:index]) + b'$'
-            for index in range(1, len(pattern))
-        ) + b')'
+        regex = (
+            b'('
+            + b'|'.join(
+                b'.' * (len(pattern) - index - 1) + re.escape(pattern[:index]) + b'$'
+                for index in range(1, len(pattern))
+            )
+            + b')'
+        )
     pattern_matcher = re.compile(regex, re.DOTALL)
     pattern_sub = len(pattern) - 1
     # Join data chunks until they are sufficiently long to contain the pattern,
@@ -98,10 +105,10 @@ def align_pattern(iterable: Iterable[str | bytes | bytearray],
             current_chunk = data_chunk
         else:
             current_chunk += data_chunk
-        if len(current_chunk) >= len(pattern) \
-                and not (
-                    current_chunk[-1] in pattern
-                    and pattern_matcher.match(current_chunk, len(current_chunk) - pattern_sub)):
+        if len(current_chunk) >= len(pattern) and not (
+            current_chunk[-1] in pattern
+            and pattern_matcher.match(current_chunk, len(current_chunk) - pattern_sub)
+        ):
             yield current_chunk
             current_chunk = None
 

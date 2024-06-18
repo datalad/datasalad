@@ -4,12 +4,7 @@ import pytest
 
 from ..itemize import itemize
 
-text_chunks = [
-    'abc',
-    'def\n012',
-    '\n',
-    '\n'
-]
+text_chunks = ['abc', 'def\n012', '\n', '\n']
 byte_chunks = [chunk.encode() for chunk in text_chunks]
 text_chunks_other = [chunk.replace('\n', '\r\n') for chunk in text_chunks]
 byte_chunks_other = [chunk.encode() for chunk in text_chunks_other]
@@ -21,8 +16,8 @@ byte_chunks_other = [chunk.encode() for chunk in text_chunks_other]
         (text_chunks, '\n'),
         (byte_chunks, b'\n'),
         (text_chunks_other, '\r\n'),
-        (byte_chunks_other, b'\r\n')
-    ]
+        (byte_chunks_other, b'\r\n'),
+    ],
 )
 def test_assembling_and_splitting(input_chunks, separator):
     empty = input_chunks[0][:0]

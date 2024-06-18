@@ -1,4 +1,4 @@
-""" Functions that allow to route data around upstream iterator """
+"""Functions that allow to route data around upstream iterator"""
 
 from __future__ import annotations
 
@@ -16,11 +16,12 @@ class StoreOnly:
     pass
 
 
-def route_out(iterable: Iterable,
-              data_store: list,
-              splitter: Callable[[Any], tuple[Any, Any]],
-              ) -> Generator:
-    """ Route data around the consumer of this iterable
+def route_out(
+    iterable: Iterable,
+    data_store: list,
+    splitter: Callable[[Any], tuple[Any, Any]],
+) -> Generator:
+    """Route data around the consumer of this iterable
 
     :func:`route_out` allows its user to:
 
@@ -63,29 +64,23 @@ def route_out(iterable: Iterable,
         from math import nan
         from datalad_next.itertools import route_out, route_in, StoreOnly
 
+
         def splitter(divisor):
             # if divisor == 0, return `StoreOnly` in the first element of the
             # result tuple to indicate that route_out should not yield this
             # element to its consumer
             return (StoreOnly, divisor) if divisor == 0 else (divisor, divisor)
 
+
         def joiner(processed_data, stored_data):
             #
             return nan if processed_data is StoreOnly else processed_data
 
+
         divisors = [0, 1, 0, 2, 0, 3, 0, 4]
         store = list()
         r = route_in(
-            map(
-                lambda x: 2.0 / x,
-                route_out(
-                    divisors,
-                    store,
-                    splitter
-                )
-            ),
-            store,
-            joiner
+            (2.0 / x for x in route_out(divisors, store, splitter)), store, joiner
         )
         print(list(r))
 
@@ -118,11 +113,10 @@ def route_out(iterable: Iterable,
             yield data_to_process
 
 
-def route_in(iterable: Iterable,
-             data_store: list,
-             joiner: Callable[[Any, Any], Any]
-             ) -> Generator:
-    """ Yield previously rerouted data to the consumer
+def route_in(
+    iterable: Iterable, data_store: list, joiner: Callable[[Any, Any], Any]
+) -> Generator:
+    """Yield previously rerouted data to the consumer
 
     This function is the counter-part to :func:`route_out`. It takes the iterable
     ``iterable`` and a data store given in ``data_store`` and yields items
@@ -152,11 +146,9 @@ def route_in(iterable: Iterable,
 
         store_1 = list()
         route_in(
-            some_generator(
-                route_out(input_iterable, store_1, splitter_1)
-            ),
+            some_generator(route_out(input_iterable, store_1, splitter_1)),
             store_1,
-            joiner_1
+            joiner_1,
         )
 
     :func:`route_in` will yield the same number of elements as ``input_iterable``.

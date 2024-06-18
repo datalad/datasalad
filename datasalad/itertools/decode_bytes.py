@@ -1,4 +1,4 @@
-"""Get strings decoded from chunks of bytes """
+"""Get strings decoded from chunks of bytes"""
 
 from __future__ import annotations
 
@@ -93,19 +93,18 @@ def decode_bytes(
         ``iterable`` cannot be decoded with the specified ``encoding``
     """
 
-    def handle_decoding_error(position: int,
-                              exc: UnicodeDecodeError
-                              ) -> tuple[int, str]:
-        """ Handle a UnicodeDecodeError """
+    def handle_decoding_error(
+        position: int, exc: UnicodeDecodeError
+    ) -> tuple[int, str]:
+        """Handle a UnicodeDecodeError"""
         if not backslash_replace:
             # Signal the error to the caller
             raise exc
         return (
             position + exc.end,
-            joined_data[:position + exc.start].decode(encoding)
-            + joined_data[position + exc.start:position + exc.end].decode(
-                encoding,
-                errors='backslashreplace'
+            joined_data[: position + exc.start].decode(encoding)
+            + joined_data[position + exc.start : position + exc.end].decode(
+                encoding, errors='backslashreplace'
             ),
         )
 

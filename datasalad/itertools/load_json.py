@@ -1,4 +1,4 @@
-""" Functions that yield JSON objects converted from input items """
+"""Functions that yield JSON objects converted from input items"""
 
 from __future__ import annotations
 
@@ -12,9 +12,10 @@ from typing import (
 __all__ = ['load_json', 'load_json_with_flag']
 
 
-def load_json(iterable: Iterable[bytes | str],
-              ) -> Generator[Any, None, None]:
-    """ Convert items yielded by ``iterable`` into JSON objects and yield them
+def load_json(
+    iterable: Iterable[bytes | str],
+) -> Generator[Any, None, None]:
+    """Convert items yielded by ``iterable`` into JSON objects and yield them
 
     This function fetches items from the underlying
     iterable. The items are expected to be ``bytes``, ``str``, or ``bytearry``,
@@ -65,9 +66,9 @@ def load_json(iterable: Iterable[bytes | str],
 
 
 def load_json_with_flag(
-        iterable: Iterable[bytes | str],
+    iterable: Iterable[bytes | str],
 ) -> Generator[tuple[Any | json.decoder.JSONDecodeError, bool], None, None]:
-    """ Convert items from ``iterable`` into JSON objects and a success flag
+    """Convert items from ``iterable`` into JSON objects and a success flag
 
     ``load_json_with_flag`` works analogous to ``load_json``, but reports
     success and failure differently.

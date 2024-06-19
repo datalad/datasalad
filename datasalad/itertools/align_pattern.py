@@ -9,7 +9,6 @@ from typing import (
     TypeVar,
 )
 
-# TODO: datalad-next originally also had `str` here. Confirm
 S = TypeVar('S', str, bytes, bytearray)
 
 
@@ -76,9 +75,14 @@ def align_pattern(iterable: Iterable[S], pattern: S) -> Generator[S, None, None]
         pattern multiple times.
     """
 
-    # Create pattern matcher for all
+    # Declare regex to be either str, bytes, or bytearray. This way we do not
+    # have to discriminate between bytes and bytearray in the following
+    # if-clause
+    regex: str | bytes | bytearray
+
+    # Create pattern matcher for all non-empty prefixes of the pattern
     if isinstance(pattern, str):
-        regex: str | bytes | bytearray = (
+        regex = (
             '('
             + '|'.join(
                 '.' * (len(pattern) - index - 1) + re.escape(pattern[:index]) + '$'
@@ -100,7 +104,7 @@ def align_pattern(iterable: Iterable[S], pattern: S) -> Generator[S, None, None]
     # Join data chunks until they are sufficiently long to contain the pattern,
     # i.e. have at least size: `len(pattern)`. Continue joining, if the chunk
     # ends with a prefix of the pattern.
-    current_chunk = None
+    current_chunk: S | None = None
     for data_chunk in iterable:
         # get the type of current_chunk from the type of this data_chunk
         if current_chunk is None:
@@ -113,7 +117,7 @@ def align_pattern(iterable: Iterable[S], pattern: S) -> Generator[S, None, None]
         # be compatible with Python 3.8
         if len(current_chunk) >= len(pattern) and not (
             current_chunk[-1] in pattern
-            and pattern_matcher.match(current_chunk, len(current_chunk) - pattern_sub)  # type: ignore
+            and pattern_matcher.match(current_chunk, len(current_chunk) - pattern_sub)
         ):
             yield current_chunk
             current_chunk = None

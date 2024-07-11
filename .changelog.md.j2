@@ -17,13 +17,13 @@
 
 {# no-scope changes #}
 {% for change in changes | rejectattr("scope") %}
-- {{ change.message }} [[{{ change.sha1 | truncate(8, true, '') }}]](https://github.com/datalad/datalad-next/commit/{{ change.sha1 | truncate(8, true, '') }})
+- {{ change.message }} [[{{ change.sha1 | truncate(8, true, '') }}]](https://github.com/datalad/datasalad/commit/{{ change.sha1 | truncate(8, true, '') }})
 {% endfor %}
 {# scoped changes #}
 {% for scope, scope_changes in changes | selectattr("scope") | groupby("scope") %}
 - {{ scopemap.get(scope, scope) }}:
 {% for change in scope_changes %}
-  - {{ change.message }} [[{{ change.sha1 | truncate(8, true, '') }}]](https://github.com/datalad/datalad-next/commit/{{ change.sha1 | truncate(8, true, '') }})
+  - {{ change.message }} [[{{ change.sha1 | truncate(8, true, '') }}]](https://github.com/datalad/datasalad/commit/{{ change.sha1 | truncate(8, true, '') }})
 {% endfor %}
 {% endfor %}
 {% endfor %}

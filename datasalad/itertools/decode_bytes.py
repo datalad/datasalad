@@ -23,6 +23,14 @@ def decode_bytes(
     be spread across multiple chunks of heterogeneous sizes, for example
     output read from a process or pieces of a download.
 
+    There is no guarantee that exactly one output chunk will be yielded for
+    every input chunk. Input byte strings might be split at error-locations, or
+    might be joined if a multi-byte encoding is spread over multiple chunks. If
+    ``decode_bytes()`` is used together with ``itemize()``, it is advisable to
+    wrap ``itemize()`` around ``decode_bytes()`` to avoid an impact on the
+    number and nature of yielded items with respect to the desired itemization
+    pattern.
+
     Multi-byte encodings that are spread over multiple byte chunks are
     supported, and chunks are joined as necessary. For example, the utf-8
     encoding for ö is ``b'\\xc3\\xb6'``.  If the encoding is split in the

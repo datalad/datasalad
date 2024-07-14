@@ -1,3 +1,10 @@
+# v0.2.1 (2024-07-14)
+
+## Bug Fixes
+
+- `decode_bytes`:
+  - error handling led to data loss in subsequent chunks [[722d0305]](https://github.com/datalad/datasalad/commit/722d0305)
+
 # v0.2.0 (2024-07-11)
 
 ## New features

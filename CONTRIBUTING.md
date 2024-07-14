@@ -40,6 +40,19 @@ things are correct without having to build a release.
 hatch version
 ```
 
+### Create a new release
+
+```
+cz bump --changelog
+```
+
+The new version is determined automatically from the nature of the commits
+made since the last release. A changelog is generated and committed.
+
+In cases where the generated changelog needs to be edited afterwards (typos,
+unnecessary complexity, etc.), the created version tag needs to be advanced.
+
+
 ### Build a new source package and wheel
 
 ```

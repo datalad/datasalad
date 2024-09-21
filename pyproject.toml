@@ -50,6 +50,9 @@ Changelog = "https://github.com/datalad/datasalad/blob/main/CHANGELOG.md"
 [tool.hatch.version]
 source = "vcs"
 
+[tool.hatch.build.hooks.vcs]
+version-file = "datasalad/_version.py"
+
 [tool.hatch.envs.hatch-test]
 default-args = ["datasalad"]
 extra-dependencies = [

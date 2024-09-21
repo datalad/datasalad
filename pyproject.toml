@@ -60,6 +60,13 @@ source = "vcs"
 [tool.hatch.build.hooks.vcs]
 version-file = "datasalad/_version.py"
 
+[tool.hatch.build.targets.sdist]
+exclude = [
+  ".github",
+  "tools",
+  "docs/build",
+]
+
 [tool.hatch.envs.hatch-test]
 default-args = ["datasalad"]
 extra-dependencies = [

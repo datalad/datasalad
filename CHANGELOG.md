@@ -1,3 +1,17 @@
+# v0.3.0 (2024-09-21)
+
+## Documentation
+
+- fix typos [[fd70937b]](https://github.com/datalad/datasalad/commit/fd70937b)
+- update project classifiers [[2c983daa]](https://github.com/datalad/datasalad/commit/2c983daa)
+- Contributing guide:
+  - describe new developer conveniences [[0a45fd46]](https://github.com/datalad/datasalad/commit/0a45fd46)
+  - snipped on releasing a new version [[b82c58c3]](https://github.com/datalad/datasalad/commit/b82c58c3)
+
+## New features
+
+- provide package version at standard location [[a17eb7c0]](https://github.com/datalad/datasalad/commit/a17eb7c0)
+
 # v0.2.1 (2024-07-14)
 
 ## Bug Fixes

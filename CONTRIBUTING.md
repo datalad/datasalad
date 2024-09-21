@@ -8,13 +8,30 @@
 
 ## Developer cheat sheet
 
-[Hatch](https://hatch.pypa.io) is used for packaging and development tasks.
-Here are a few pointers. For full detail, see the hatch docs.
+[Hatch](https://hatch.pypa.io) is used as a convenience solution for packaging and development tasks.
+Hatch takes care of managing dependencies and environments, including the Python interpreter itself.
+If not installed yet, installing via [pipx](https://github.com/pypa/pipx) is recommended (`pipx install hatch`).
 
-### Run the tests
+Below is a list of some provided convenience commands.
+An accurate overview of provided convenience scripts can be obtained by running: `hatch env show`.
+All command setup can be found in `pyproject.toml`, and given alternatively managed dependencies, all commands can also be used without `hatch`.
+
+### Run the tests (with coverage reporting)
 
 ```
 hatch test [--cover]
+```
+
+There is also a setup for matrix test runs, covering all current Python versions:
+
+```
+hatch run tests:run [<select tests>]
+```
+
+This can also be used to run tests for a specific Python version only:
+
+```
+hatch run tests.py3.10:run [<select tests>]
 ```
 
 ### Build the HTML documentation (under `docs/_build/html`)
@@ -31,26 +48,28 @@ hatch run docs:clean
 hatch run types:check
 ```
 
-### Check the `datasalad` version
-
-`hatch` determines the version from the VCS tags. This can help check that
-things are correct without having to build a release.
+### Check commit messages for compliance with [Conventional Commits](https://www.conventionalcommits.org)
 
 ```
-hatch version
+hatch run cz:check-commits
+```
+
+### Show would-be auto-generated changelog for the next release
+
+```
+hatch run cz:show-changelog
 ```
 
 ### Create a new release
 
 ```
-cz bump --changelog
+hatch run cz:bump-version
 ```
 
-The new version is determined automatically from the nature of the commits
-made since the last release. A changelog is generated and committed.
+The new version is determined automatically from the nature of the (conventional) commits made since the last release.
+A changelog is generated and committed.
 
-In cases where the generated changelog needs to be edited afterwards (typos,
-unnecessary complexity, etc.), the created version tag needs to be advanced.
+In cases where the generated changelog needs to be edited afterwards (typos, unnecessary complexity, etc.), the created version tag needs to be advanced.
 
 
 ### Build a new source package and wheel
@@ -64,6 +83,7 @@ hatch build
 ```
 hatch publish
 ```
+
 
 ## When should I consider a contribution to `datasalad`?
 

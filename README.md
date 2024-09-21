@@ -99,5 +99,5 @@ Developers are advised to never reuse any components with names starting with
 ## Contributing
 
 Contributions to this library are welcome! Please see the [contributing
-guidelines](CONTRIBUTING.md) for details on scope on styles of potential
+guidelines](CONTRIBUTING.md) for details on scope and style of potential
 contributions.

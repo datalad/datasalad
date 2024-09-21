@@ -104,7 +104,7 @@ environment:
     # Windows core tests
     - job_name: test-win
       # ~35 min
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
       # Python version specification is non-standard on windows
       PY: 39-x64
       INSTALL_GITANNEX: git-annex -m datalad/packages
@@ -114,7 +114,7 @@ environment:
 
     # MacOS core tests
     - job_name: test-mac
-      APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
+      APPVEYOR_BUILD_WORKER_IMAGE: macos-sonoma
       PY: 3.8
       INSTALL_GITANNEX: git-annex
       DATALAD_LOCATIONS_SOCKETS: /Users/appveyor/DLTMP/sockets

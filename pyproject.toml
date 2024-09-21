@@ -78,7 +78,19 @@ extra-dependencies = [
   "pytest-cov",
 ]
 
+[tool.hatch.envs.tests]
+description = "run tests across Python versions"
+template = "hatch-test"
+
+[[tool.hatch.envs.tests.matrix]]
+python = ["3.9", "3.10", "3.11", "3.12"]
+
+[tool.hatch.envs.tests.scripts]
+run = 'python -m pytest {args}'
+
+
 [tool.hatch.envs.types]
+description = "type checking with MyPy"
 extra-dependencies = [
   "mypy>=1.0.0",
   "pytest",
@@ -92,6 +104,7 @@ check = [
 ]
 
 [tool.hatch.envs.docs]
+description = "build Sphinx-based docs"
 extra-dependencies = [
   "sphinx",
 ]
@@ -103,6 +116,40 @@ clean = [
   "rm -rf docs/generated",
   "make -C docs clean",
 ]
+
+[tool.hatch.envs.cz]
+description = "commit compliance, changelog, and release generation"
+detached = true
+extra-dependencies = [
+  "commitizen",
+]
+[tool.hatch.envs.cz.scripts]
+#check-commits = [
+#  # check all commit messages since the (before) beginning
+#  "cz check --rev-range 4b825dc642cb6eb9a060e54bf8d69288fbee4904..HEAD",
+#]
+show-changelog = [
+  # show the would-be changelog on stdout
+  "cz changelog --dry-run",
+]
+bump-version = [
+  # bump version (also tags) and update changelog
+  "cz bump --changelog",
+]
+
+[tool.hatch.envs.codespell]
+description = "spell checking"
+detached = true
+extra-dependencies = [
+  "codespell",
+]
+[tool.hatch.envs.codespell.scripts]
+check = "codespell"
+fix = "codespell --write-changes"
+
+[tool.codespell]
+skip = ".git,build,.*cache,dist,./docs/_build/*"
+#exclude-file = ".codespell-exclude"
 
 
 [tool.coverage.run]

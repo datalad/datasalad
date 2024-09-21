@@ -3,3 +3,4 @@ dist/
 docs/generated
 docs/_build
 *.swp
+datasalad/_version.py

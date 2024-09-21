@@ -85,7 +85,7 @@ Why ``datasalad``?
 
 This is a base library for DataLad, hence the name ``Data-sa-Lad``.  The ``sa``
 might stand for "support assemblage", or "smart assets".  More importantly, the
-library is a mixture of more-or-less standalone utilties that "make up the
+library is a mixture of more-or-less standalone utilities that "make up the
 salad".
 
 After ~10 years of developing DataLad, these utilities have been factored out

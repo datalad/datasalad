@@ -83,7 +83,7 @@ environment:
     - job_name: test-win
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
       # Python version specification is non-standard on windows
-      PY: 3.9
+      PY: 3.12
       INSTALL_GITANNEX: git-annex -m datalad/packages
       COVERAGE_ROOT: C:\DLTMP
       HATCH_DATA_DIR: C:\hatch-data-dir

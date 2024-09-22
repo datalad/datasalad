@@ -124,10 +124,11 @@ extra-dependencies = [
   "commitizen",
 ]
 [tool.hatch.envs.cz.scripts]
-#check-commits = [
-#  # check all commit messages since the (before) beginning
-#  "cz check --rev-range 4b825dc642cb6eb9a060e54bf8d69288fbee4904..HEAD",
-#]
+check-commits = [
+  # check all commit messages since we switched to convential commits
+  # only (no merge commits also)
+  "cz check --rev-range a518855b7e2a08d8a5ba6a36070425457271857b..HEAD",
+]
 show-changelog = [
   # show the would-be changelog on stdout
   "cz changelog --dry-run",

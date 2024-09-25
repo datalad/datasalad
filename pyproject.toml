@@ -100,7 +100,7 @@ extra-dependencies = [
 ]
 [tool.hatch.envs.types.scripts]
 check = [
-  "mypy --install-types --non-interactive --python-version 3.8 --pretty --show-error-context datasalad",
+  "mypy --install-types --non-interactive --python-version 3.8 --pretty --show-error-context {args:datasalad}",
 ]
 
 [tool.hatch.envs.docs]

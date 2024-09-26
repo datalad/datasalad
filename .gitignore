@@ -1,5 +1,5 @@
 dist/
-.coverage
+.coverage*
 docs/generated
 docs/_build
 *.swp

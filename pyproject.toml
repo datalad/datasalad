@@ -132,7 +132,7 @@ extra-dependencies = [
 ]
 [tool.hatch.envs.cz.scripts]
 check-commits = [
-  # check all commit messages since we switched to convential commits
+  # check all commit messages since we switched to conventional commits
   # only (no merge commits also)
   "cz check --rev-range a518855b7e2a08d8a5ba6a36070425457271857b..HEAD",
 ]

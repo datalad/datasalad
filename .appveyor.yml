@@ -185,7 +185,7 @@ for:
           export TMPDIR=/crippledfs
         fi
       - echo TMPDIR=$TMPDIR
-      - 'hatch run tests.py${PY}:run-cov --doctest-modules --durations 10'
+      - 'hatch run tests.py${PY}:run-cov -s --doctest-modules --durations 10'
 
     after_test:
       - 'hatch run tests.py${PY}:cov-combine'
@@ -249,7 +249,7 @@ for:
       #- tools\appveyor\verify-ssh-access
 
     test_script:
-      - cmd: 'hatch run tests.py%PY%:run-cov --doctest-modules --durations 10'
+      - cmd: 'hatch run tests.py%PY%:run-cov -s --doctest-modules --durations 10'
 
     after_test:
       - cmd: 'hatch run tests.py%PY%:cov-combine'

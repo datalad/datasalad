@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import subprocess
 import sys
 
 import pytest
@@ -12,6 +13,10 @@ def test_CommandError_minial():
         # we need a command
         CommandError()
 
+def test_CommandError_multiple_inheritence():
+    ce = CommandError('dummy')
+    assert isinstance(ce, RuntimeError)
+    assert isinstance(ce, subprocess.CalledProcessError)
 
 def test_CommandError_str_repr() -> None:
     unicode_out = 'ΔЙקم๗あösdohabcdefdf0j23d2däüß§!אؠॵΔЙקم๗あöäüß§!אؠॵℱ⏰︻𐂃𐃍'

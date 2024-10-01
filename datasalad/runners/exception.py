@@ -8,10 +8,11 @@ if TYPE_CHECKING:
     import os
 
 import signal
+import subprocess
 import sys
 
 
-class CommandError(RuntimeError):
+class CommandError(subprocess.CalledProcessError, RuntimeError):
     """Raised when a subprocess execution fails (non-zero exit)
 
     Key class attributes are aligned with the ``CalledProcessError`` exception
@@ -49,11 +50,14 @@ class CommandError(RuntimeError):
         cwd: str | os.PathLike | None = None,
     ) -> None:
         RuntimeError.__init__(self, msg)
-        self.cmd = cmd
+        subprocess.CalledProcessError.__init__(
+            self,
+            returncode=returncode,
+            cmd=cmd,
+            output=stdout,
+            stderr=stderr,
+        )
         self.msg = msg
-        self.returncode = returncode
-        self.stdout = stdout
-        self.stderr = stderr
         self.cwd = cwd
 
     def __str__(self) -> str:

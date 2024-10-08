@@ -1,3 +1,15 @@
+# v0.4.0 (2024-10-08)
+
+## 💫 New features
+
+- hierachical, multi-source settings manager [[a30ea9f3]](https://github.com/datalad/datasalad/commit/a30ea9f3)
+- declare library type-annotated [[a7f1f0f4]](https://github.com/datalad/datasalad/commit/a7f1f0f4)
+
+## 📝 Documentation
+
+- README:
+  - use absolute URL to make link work on PyPi too [[47b38029]](https://github.com/datalad/datasalad/commit/47b38029)
+
 # v0.3.0 (2024-09-21)
 
 ## Documentation

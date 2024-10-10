@@ -5,6 +5,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/wtksrottgt82h2ra/branch/main?svg=true)](https://ci.appveyor.com/project/mih/datasalad/branch/main)
 [![codecov](https://codecov.io/gh/datalad/datasalad/branch/main/graph/badge.svg?token=VSO592NATM)](https://codecov.io/gh/datalad/datasalad)
 [![Documentation Status](https://readthedocs.org/projects/datasalad/badge/?version=latest)](https://datasalad.readthedocs.io/latest/?badge=latest)
+[![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch)
 
 This is a pure-Python library with a collection of utilities for working with
 data in the vicinity of Git and git-annex.  While this is a foundational

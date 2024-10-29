@@ -29,7 +29,7 @@ class Source(ABC):
     :meth:`Source.get` nevertheless return a single
     :class:`~datasalad.settings.Setting` only. It is the decision of the
     source implementation to select the most appropriate setting to return.
-    Such multi-value sources should reimplement :method:`Source._getall`
+    Such multi-value sources should reimplement :meth:`Source._getall`
     to provide access to all values for a given key.
 
     A number of methods have to be implemented for any concrete source

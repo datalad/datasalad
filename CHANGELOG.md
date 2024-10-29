@@ -2,7 +2,7 @@
 
 ## 💫 New features
 
-- hierachical, multi-source settings manager [[a30ea9f3]](https://github.com/datalad/datasalad/commit/a30ea9f3)
+- hierarchical, multi-source settings manager [[a30ea9f3]](https://github.com/datalad/datasalad/commit/a30ea9f3)
 - declare library type-annotated [[a7f1f0f4]](https://github.com/datalad/datasalad/commit/a7f1f0f4)
 
 ## 📝 Documentation

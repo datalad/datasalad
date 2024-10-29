@@ -75,9 +75,10 @@ Also see the :ref:`modindex`.
 .. autosummary::
    :toctree: generated
 
-   runners
+   gitpathspec
    iterable_subprocess
    itertools
+   runners
    settings
 
 

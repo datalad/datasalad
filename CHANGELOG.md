@@ -1,3 +1,16 @@
+# v0.5.0 (2025-06-06)
+
+## 💫 New features
+
+- `gitpathspec` module for handling Git's pathspecs [[b1cc0720]](https://github.com/datalad/datasalad/commit/b1cc0720)
+
+## 📝 Documentation
+
+- add maintainability badge [[10c50ba5]](https://github.com/datalad/datasalad/commit/10c50ba5)
+- fix typo in generated changelog [[3862c679]](https://github.com/datalad/datasalad/commit/3862c679)
+- fix syntax of API doc linkage [[c7e1d230]](https://github.com/datalad/datasalad/commit/c7e1d230)
+- Add official Hatch badge to README.md [[8769ec57]](https://github.com/datalad/datasalad/commit/8769ec57)
+
 # v0.4.0 (2024-10-08)
 
 ## 💫 New features

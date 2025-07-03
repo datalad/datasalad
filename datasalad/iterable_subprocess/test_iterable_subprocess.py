@@ -14,17 +14,17 @@ from .iterable_subprocess import (
 )
 
 
-def test_cat_not_necessarily_streamed():
+def test_cat_not_necessarily_streamed(cat_util):
     def yield_small_input():
         yield b'first'
         yield b'second'
         yield b'third'
 
-    with iterable_subprocess(['cat'], yield_small_input()) as output:
+    with iterable_subprocess(cat_util, yield_small_input()) as output:
         assert b''.join(output) == b'firstsecondthird'
 
 
-def test_cat_streamed():
+def test_cat_streamed(cat_util):
     latest_input = None
 
     def yield_input():
@@ -34,7 +34,7 @@ def test_cat_streamed():
             yield b'*' * 10
             latest_input = i
 
-    with iterable_subprocess(['cat'], yield_input()) as output:
+    with iterable_subprocess(cat_util, yield_input()) as output:
         latest_input_during_output = [latest_input for _ in output]
 
         # Make sure the input is progressing during the output. In test, there
@@ -50,41 +50,41 @@ def test_cat_streamed():
         assert num_steps > 50
 
 
-def test_process_closed_after():
+def test_process_closed_after(cat_util):
     # in datalad-next we do not necessarily have no child-processes
     # so determine the number of test incrementally
     # assert len(psutil.Process().children(recursive=True)) == 0
     n_children = len(psutil.Process().children(recursive=True))
-    with iterable_subprocess(['cat'], ()) as output:
+    with iterable_subprocess(cat_util, ()) as output:
         assert len(psutil.Process().children(recursive=True)) == (n_children + 1)
     assert len(psutil.Process().children(recursive=True)) == n_children
 
 
-def test_exception_from_input_before_yield_propagated():
+def test_exception_from_input_before_yield_propagated(cat_util):
     def yield_input():
         raise Exception('Something went wrong')
 
     with pytest.raises(Exception, match='Something went wrong'):
-        with iterable_subprocess(['cat'], yield_input()) as output:
+        with iterable_subprocess(cat_util, yield_input()) as output:
             pass
 
 
-def test_exception_from_input_after_yield_propagated():
+def test_exception_from_input_after_yield_propagated(cat_util):
     def yield_input():
         yield b'*'
         raise Exception('Something went wrong')
 
     with pytest.raises(Exception, match='Something went wrong'):
-        with iterable_subprocess(['cat'], yield_input()) as output:
+        with iterable_subprocess(cat_util, yield_input()) as output:
             pass
 
 
-def test_exception_from_input_incorrect_type_propagated():
+def test_exception_from_input_incorrect_type_propagated(cat_util):
     def yield_input():
         yield 'this-should-be-bytes'
 
     with pytest.raises(TypeError):
-        with iterable_subprocess(['cat'], yield_input()) as output:
+        with iterable_subprocess(cat_util, yield_input()) as output:
             pass
 
 
@@ -98,6 +98,7 @@ def test_exception_from_input_incorrect_type_propagated():
     ],
 )
 def test_exception_from_output_during_input_iterating_propagates_and_does_not_hang(
+    cat_util,
     size,
 ):
     event = threading.Event()
@@ -108,7 +109,7 @@ def test_exception_from_output_during_input_iterating_propagates_and_does_not_ha
             yield b'*' * size
 
     with pytest.raises(Exception, match='My error'):
-        with iterable_subprocess(['cat'], yield_input()) as output:
+        with iterable_subprocess(cat_util, yield_input()) as output:
             event.wait()
             raise Exception('My error')
 
@@ -131,7 +132,7 @@ def test_exception_from_output_during_input_iterating_propagates_and_does_not_ha
     ],
 )
 def test_exception_from_output_iterating_propagates_and_does_not_hang(
-    at_iteration, chunk_size
+    cat_util, at_iteration, chunk_size
 ):
     def yield_input():
         while True:
@@ -139,7 +140,7 @@ def test_exception_from_output_iterating_propagates_and_does_not_hang(
 
     with pytest.raises(Exception, match='My error'):
         with iterable_subprocess(
-            ['cat'], yield_input(), chunk_size=chunk_size
+            cat_util, yield_input(), chunk_size=chunk_size
         ) as output:
             for i, chunk in enumerate(output):
                 if i == at_iteration:
@@ -152,10 +153,10 @@ def test_exception_from_not_found_process_propagated():
             b''.join(output)
 
 
-def test_exception_from_return_code(monkeypatch):
+def test_exception_from_return_code(monkeypatch, ls_util):
     monkeypatch.setenv('LANG', 'C')
     with pytest.raises(CommandError, match='No such file or directory') as excinfo:
-        with iterable_subprocess(['ls', 'does-not-exist'], ()) as output:
+        with iterable_subprocess([*ls_util, 'does-not-exist'], ()) as output:
             a = b''.join(output)
 
     assert excinfo.value.returncode > 0
@@ -366,7 +367,7 @@ def test_program_that_sleeps_not_quickly_if_no_exception():
     assert end - start > 2
 
 
-def test_funzip_no_compression():
+def test_funzip_no_compression(funzip_util):
     contents = b'*' * 100000
 
     def yield_input():
@@ -376,11 +377,11 @@ def test_funzip_no_compression():
 
         yield file.getvalue()
 
-    with iterable_subprocess(['funzip'], yield_input()) as output:
+    with iterable_subprocess(funzip_util, yield_input()) as output:
         assert b''.join(output) == contents
 
 
-def test_funzip_deflate():
+def test_funzip_deflate(funzip_util):
     contents = b'*' * 100000
 
     def yield_input():
@@ -390,20 +391,20 @@ def test_funzip_deflate():
 
         yield file.getvalue()
 
-    with iterable_subprocess(['funzip'], yield_input()) as output:
+    with iterable_subprocess(funzip_util, yield_input()) as output:
         assert b''.join(output) == contents
 
 
-def test_error_returncode_available_from_generator():
+def test_error_returncode_available_from_generator(ls_util):
     with pytest.raises(CommandError):
-        with iterable_subprocess(['ls', 'does-not-exist'], ()) as ls:
+        with iterable_subprocess([*ls_util, 'does-not-exist'], ()) as ls:
             tuple(ls)
     assert ls.returncode != 0
 
 
-def test_error_returncode_available_from_generator_with_exception():
+def test_error_returncode_available_from_generator_with_exception(ls_util):
     with pytest.raises(StopIteration):
-        with iterable_subprocess(['ls', 'does-not-exist'], ()) as ls:
+        with iterable_subprocess([*ls_util, 'does-not-exist'], ()) as ls:
             while True:
                 next(ls)
     assert ls.returncode != 0

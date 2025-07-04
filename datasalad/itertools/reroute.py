@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 from typing import (
+    TYPE_CHECKING,
     Any,
     Callable,
-    Generator,
-    Iterable,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Generator, Iterable
 
 __all__ = ['StoreOnly', 'route_in', 'route_out']
 

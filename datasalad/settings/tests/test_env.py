@@ -1,10 +1,10 @@
+from collections.abc import Hashable
 from os import (
     environ,
 )
 from os import (
     name as os_name,
 )
-from typing import Hashable
 from unittest.mock import patch
 
 import pytest

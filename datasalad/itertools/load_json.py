@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import json
 from typing import (
+    TYPE_CHECKING,
     Any,
-    Generator,
-    Iterable,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Generator, Iterable
 
 __all__ = ['load_json', 'load_json_with_flag']
 

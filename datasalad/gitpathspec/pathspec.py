@@ -6,7 +6,10 @@ from __future__ import annotations
 import posixpath
 from dataclasses import dataclass
 from fnmatch import fnmatch
-from typing import Generator
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 
 @dataclass(frozen=True)

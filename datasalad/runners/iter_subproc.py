@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import (
     TYPE_CHECKING,
-    Iterable,
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
     from pathlib import Path
 
 from datasalad import iterable_subprocess

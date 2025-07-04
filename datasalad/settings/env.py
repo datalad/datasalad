@@ -9,14 +9,13 @@ from os import (
 )
 from typing import (
     TYPE_CHECKING,
-    Hashable,
 )
 
 from datasalad.settings.setting import Setting
 from datasalad.settings.source import WritableSource
 
 if TYPE_CHECKING:
-    from collections.abc import Collection
+    from collections.abc import Collection, Hashable
 
 lgr = logging.getLogger('datasalad.settings')
 

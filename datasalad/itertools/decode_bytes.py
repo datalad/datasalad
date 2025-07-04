@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from typing import (
-    Generator,
-    Iterable,
-)
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Generator, Iterable
 
 __all__ = ['decode_bytes']
 

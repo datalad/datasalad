@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 from collections import deque
-from collections.abc import Generator
+from collections.abc import Generator, Iterable
 from contextlib import contextmanager
 from subprocess import PIPE, Popen
 from threading import Thread
 from typing import (
     TYPE_CHECKING,
-    Iterable,
 )
 
 if TYPE_CHECKING:
@@ -180,21 +179,25 @@ def iterable_subprocess(
     exception_stderr = None
 
     try:
-        with Popen(  # nosec - all arguments are controlled by the caller
-            program,
-            stdin=PIPE,
-            stdout=PIPE,
-            stderr=PIPE,
-            cwd=cwd,
-            bufsize=bufsize,
-        ) as proc, thread(
-            keep_only_most_recent,
-            proc.stderr,
-            stderr_deque,
-        ) as (start_t_stderr, join_t_stderr), thread(
-            input_to,
-            proc.stdin,
-        ) as (start_t_stdin, join_t_stdin):
+        with (
+            Popen(  # nosec - all arguments are controlled by the caller
+                program,
+                stdin=PIPE,
+                stdout=PIPE,
+                stderr=PIPE,
+                cwd=cwd,
+                bufsize=bufsize,
+            ) as proc,
+            thread(
+                keep_only_most_recent,
+                proc.stderr,
+                stderr_deque,
+            ) as (start_t_stderr, join_t_stderr),
+            thread(
+                input_to,
+                proc.stdin,
+            ) as (start_t_stdin, join_t_stdin),
+        ):
             try:
                 start_t_stderr()
                 start_t_stdin()

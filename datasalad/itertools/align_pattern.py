@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import re
 from typing import (
-    Generator,
-    Iterable,
+    TYPE_CHECKING,
     TypeVar,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Generator, Iterable
 
 S = TypeVar('S', str, bytes, bytearray)
 

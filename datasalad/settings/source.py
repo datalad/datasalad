@@ -7,14 +7,12 @@ from abc import (
 from typing import (
     TYPE_CHECKING,
     Any,
-    Generator,
-    Hashable,
 )
 
 from datasalad.settings.setting import Setting
 
 if TYPE_CHECKING:
-    from collections.abc import Collection
+    from collections.abc import Collection, Generator, Hashable
 
 
 class Source(ABC):

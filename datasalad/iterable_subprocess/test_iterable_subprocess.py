@@ -410,9 +410,10 @@ def test_error_returncode_available_from_generator_with_exception(ls_util):
     assert ls.returncode != 0
 
 
-def test_returncode_available_from_generator_with_exception():
+def test_returncode_available_from_generator_with_exception(cat_util):
     with pytest.raises(StopIteration):
-        with iterable_subprocess(['echo', 'a'], ()) as echo:
+        # we are (ab)using `cat` to emulate an `echo a`
+        with iterable_subprocess(cat_util, ['a']) as echo:
             while True:
                 next(echo)
     # On a Linux system, all exceptions that are raised before the subprocess

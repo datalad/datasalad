@@ -10,7 +10,7 @@
 
 [Hatch](https://hatch.pypa.io) is used as a convenience solution for packaging and development tasks.
 Hatch takes care of managing dependencies and environments, including the Python interpreter itself.
-If not installed yet, installing via [pipx](https://github.com/pypa/pipx) is recommended (`pipx install hatch`).
+If not installed yet, installing via [uv](https://docs.astral.sh/uv) is recommended (`uv tool install hatch`).
 
 Below is a list of some provided convenience commands.
 An accurate overview of provided convenience scripts can be obtained by running: `hatch env show`.
@@ -19,19 +19,13 @@ All command setup can be found in `pyproject.toml`, and given alternatively mana
 ### Run the tests (with coverage reporting)
 
 ```
-hatch test [--cover]
-```
-
-There is also a setup for matrix test runs, covering all current Python versions:
-
-```
-hatch run tests:run [<select tests>]
+hatch test [--cover] [--all]
 ```
 
 This can also be used to run tests for a specific Python version only:
 
 ```
-hatch run tests.py3.10:run [<select tests>]
+hatch test -i py=3.10 [<select tests>]
 ```
 
 ### Build the HTML documentation (under `docs/_build/html`)

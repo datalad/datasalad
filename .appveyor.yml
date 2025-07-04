@@ -69,19 +69,16 @@ environment:
     # Ubuntu core tests
     - job_name: test-linux
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
-      PY: 3.9
 
     # same as 'test-linux', but TMPDIR is on a crippled filesystem, causing
     # most, if not all test datasets to be created on that filesystem
     - job_name: test-linux-crippled
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
-      PY: 3.9
 
     # Windows core tests
     - job_name: test-win
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
       # Python version specification is non-standard on windows
-      PY: 3.9
       COVERAGE_ROOT: C:\DLTMP
       # make hatch use uv as an installer
       HATCH_ENV_TYPE_VIRTUAL_UV_PATH: C:\Users\appveyor\.local\bin\uv.exe
@@ -97,7 +94,6 @@ environment:
     # MacOS core tests
     - job_name: test-mac
       APPVEYOR_BUILD_WORKER_IMAGE: macos-sonoma
-      PY: 3.12
       COVERAGE_ROOT: /Users/appveyor/DLTMP
       HATCH_ENV_TYPE_VIRTUAL_UV_PATH: /Users/appveyor/.local/bin/uv
       HATCH_DATA_DIR: /Users/appveyor/hatch-data-dir
